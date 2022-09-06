@@ -13,14 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Functions that test the Storage Client."""
+
 import os
 
-import d1_storage.storage as storage
+from d1_storage import storage
 import protobuf_storage.storage_pb2
 import protobuf_generic.authn_pb2
 
 
 def test_storage_client():
+    """Test storage client."""
     client = storage.StorageClient('localhost:9000')
 
     user_id = os.environ['D1_UID']
@@ -29,10 +32,10 @@ def test_storage_client():
     response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
         user_id=user_id, password=password))
 
-    accessToken = response.access_token
+    access_token = response.access_token
 
     metadata = (
-        ('authorization', f'bearer {accessToken}'),
+        ('authorization', f'bearer {access_token}'),
     )
 
     response = client.authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest(
@@ -41,10 +44,10 @@ def test_storage_client():
     response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
         user_id=response.user_id, password=response.password))
 
-    accessToken = response.access_token
+    access_token = response.access_token
 
     metadata = (
-        ('authorization', f'bearer {accessToken}'),
+        ('authorization', f'bearer {access_token}'),
     )
 
     plaintext = b'Darkwingduck'

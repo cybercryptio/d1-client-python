@@ -13,13 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Generic Client can be used to make calls to a D1 Generic service."""
+
 import grpc
 
-import d1_generic.base as base
+from d1_generic import base
 import protobuf_generic.generic_pb2_grpc
 
 
 class GenericClient(base.BaseClient):
+    """GenericClient..."""
+
     def __init__(self, endpoint):
         base.BaseClient.__init__(self, endpoint)
 

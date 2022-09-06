@@ -13,14 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Functions that test the Generic Client."""
+
 import os
 
-import d1_generic.generic as generic
+from d1_generic import generic
 import protobuf_generic.generic_pb2
 import protobuf_generic.authn_pb2
 
 
 def test_generic_client():
+    """Test generic client..."""
     client = generic.GenericClient('localhost:9000')
 
     user_id = os.environ['D1_UID']
@@ -29,10 +32,10 @@ def test_generic_client():
     response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
         user_id=user_id, password=password))
 
-    accessToken = response.access_token
+    access_token = response.access_token
 
     metadata = (
-        ('authorization', f'bearer {accessToken}'),
+        ('authorization', f'bearer {access_token}'),
     )
 
     response = client.authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest(
@@ -41,10 +44,10 @@ def test_generic_client():
     response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
         user_id=response.user_id, password=response.password))
 
-    accessToken = response.access_token
+    access_token = response.access_token
 
     metadata = (
-        ('authorization', f'bearer {accessToken}'),
+        ('authorization', f'bearer {access_token}'),
     )
 
     plaintext = b'Darkwingduck'

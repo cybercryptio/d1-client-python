@@ -16,6 +16,11 @@
 help:  ## Display this help
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make <target> \033[36m\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
+.PHONY: lint
+lint: ## Lint the codebase
+	pylint d1_generic
+	pylint d1_storage
+
 ##### Test targets #####
 .PHONY: tests
 tests: ## Run tests against dockerized servers

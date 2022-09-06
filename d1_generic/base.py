@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Base Client..."""
+
 import grpc
 
 import protobuf_generic.authn_pb2_grpc
@@ -21,6 +23,8 @@ import protobuf_generic.version_pb2_grpc
 
 
 class BaseClient:
+    """BaseClient..."""
+
     def __init__(self, endpoint):
         channel = grpc.insecure_channel(endpoint)
 
