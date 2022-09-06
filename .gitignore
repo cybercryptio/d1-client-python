@@ -1,0 +1,13 @@
+# Folders
+__pycache__
+.pytest_cache
+d1_generic/__pycache__
+d1_generic/.pytest_cache
+d1_storage/__pycache__
+d1_storage/.pytest_cache
+protobuf_generic/__pycache__
+protobuf_storage/__pycache__
+
+# Files
+protobuf_generic/*.proto
+protobuf_storage/*.proto
