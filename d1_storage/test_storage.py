@@ -19,45 +19,21 @@ import os
 
 from d1_storage import storage
 import protobuf_storage.storage_pb2
-import protobuf_generic.authn_pb2
 
 
 def test_storage_client():
     """Test storage client."""
-    client = storage.StorageClient('localhost:9000')
-
-    user_id = os.environ['D1_UID']
-    password = os.environ['D1_PASS']
-
-    response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
-        user_id=user_id, password=password))
-
-    access_token = response.access_token
-
-    metadata = (
-        ('authorization', f'bearer {access_token}'),
-    )
-
-    response = client.authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest(
-        scopes=['READ', 'CREATE']), metadata=metadata)
-
-    response = client.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(
-        user_id=response.user_id, password=response.password))
-
-    access_token = response.access_token
-
-    metadata = (
-        ('authorization', f'bearer {access_token}'),
-    )
+    client = storage.StorageClient(
+        'localhost:9000', access_token=os.environ['access_token'])
 
     plaintext = b'Darkwingduck'
     associated_data = b'Metadata'
 
     response = client.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest(
-        plaintext=plaintext, associated_data=associated_data), metadata=metadata)
+        plaintext=plaintext, associated_data=associated_data))
 
     response = client.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest(
-        object_id=response.object_id), metadata=metadata)
+        object_id=response.object_id))
 
     assert plaintext == response.plaintext
     assert associated_data == response.associated_data
