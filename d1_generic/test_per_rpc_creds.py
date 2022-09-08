@@ -13,27 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions that test the Storage Client."""
+"""Functions that test the Generic Client."""
 
 import os
 
-from d1_storage import storage
-import protobuf_storage.storage_pb2
+from d1_generic import generic
+import protobuf_generic.generic_pb2
+import protobuf_generic.authn_pb2
 
 
-def test_storage_client():
-    """Test storage client."""
-    client = storage.StorageClient(
+def test_per_rpc_creds():
+    """Test generic client..."""
+
+    client = generic.GenericClient(
         'localhost:9000', access_token=os.environ['access_token'])
 
     plaintext = b'Darkwingduck'
-    associated_data = b'Metadata'
 
-    response = client.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest(
-        plaintext=plaintext, associated_data=associated_data))
+    response = client.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest(
+        plaintext=plaintext))
 
-    response = client.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest(
-        object_id=response.object_id))
+    response = client.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest(
+        ciphertext=response.ciphertext, object_id=response.object_id))
 
     assert plaintext == response.plaintext
-    assert associated_data == response.associated_data

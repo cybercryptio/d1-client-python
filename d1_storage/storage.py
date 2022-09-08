@@ -19,7 +19,7 @@ import grpc
 
 from d1_generic import base
 import protobuf_storage.storage_pb2_grpc
-import d1_generic.header_manipulator_client_interceptor
+import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
 class StorageClient(base.BaseClient):
@@ -29,13 +29,13 @@ class StorageClient(base.BaseClient):
         base.BaseClient.__init__(self, endpoint)
 
         if transport_creds:
-            creds = grpc.composite_channel_credentials(transport_creds, grpc.access_token_call_credentials(
-                access_token))
+            creds = grpc.composite_channel_credentials(
+                transport_creds, grpc.access_token_call_credentials(access_token))
             channel = grpc.secure_channel(target=endpoint, credentials=creds)
 
         else:
             if access_token:
-                header_adder_interceptor = d1_generic.header_manipulator_client_interceptor.header_adder_interceptor(
+                header_adder_interceptor = interceptor.header_adder_interceptor(
                     'authorization', f'bearer {access_token}')
 
                 channel = grpc.intercept_channel(

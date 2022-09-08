@@ -14,9 +14,9 @@
 """Interceptor that adds headers to outgoing requests."""
 
 import collections
+import grpc
 
 import d1_generic.generic_client_interceptor
-import grpc
 
 
 class _ClientCallDetails(
@@ -28,6 +28,7 @@ class _ClientCallDetails(
 
 
 def header_adder_interceptor(header, value):
+    """Docstring..."""
 
     def intercept_call(client_call_details, request_iterator, request_streaming,
                        response_streaming):
