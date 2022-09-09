@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions that test the Storage Client."""
+"""A test of an example Storage Client."""
 
 import os
 
@@ -26,7 +26,8 @@ password = os.environ['D1_PASS']
 
 
 def test_storage_client():
-    """Test storage client."""
+    """Create a new Storage Client and verify that a plaintext and associated_data can be 
+    stored and retrieved correctly."""
     client = storage.StorageClient('localhost:9000')
 
     response = client.authn_stub.LoginUser(

@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions that test the Generic Client."""
+"""A test of an example Generic Client where the access token is given as channel metadata."""
 
 import os
 
@@ -21,12 +21,15 @@ from d1_generic import generic
 import protobuf_generic.generic_pb2
 import protobuf_generic.authn_pb2
 
+access_token = os.environ['access_token']
+
 
 def test_per_rpc_creds():
-    """Test generic client..."""
+    """Create a new Storage Client and verify that a plaintext and associated_data can be 
+    stored and retrieved correctly."""
 
     client = generic.GenericClient(
-        'localhost:9000', access_token=os.environ['access_token'])
+        'localhost:9000', access_token=access_token)
 
     plaintext = b'Darkwingduck'
 

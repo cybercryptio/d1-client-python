@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Functions that test the Generic Client."""
+"""A test of an example Generic Client."""
 
 import os
 
@@ -26,7 +26,7 @@ password = os.environ['D1_PASS']
 
 
 def test_generic_client():
-    """Test generic client..."""
+    """Create a new Generic Client and verify that a plaintext can be encrypted and decrypted correctly."""
 
     client = generic.GenericClient('localhost:9000')
 

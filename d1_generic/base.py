@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Base Client..."""
+"""This module contains the BaseClient class."""
 
 import grpc
 
@@ -24,7 +24,7 @@ import protobuf_generic.version_pb2_grpc
 
 
 class BaseClient:
-    """BaseClient..."""
+    """BaseClient represents the shared functionality between various D1 services."""
 
     def __init__(self, endpoint, transport_creds=None, access_token=None):
 

@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Storage Client can be used to make calls to a D1 Storage service."""
+"""This module contains the StorageClient class."""
 
 import grpc
 
@@ -23,7 +23,7 @@ import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
 class StorageClient(base.BaseClient):
-    """StorageClient..."""
+    """Storage Client can be used to make calls to a D1 Storage service."""
 
     def __init__(self, endpoint, transport_creds=None, access_token=None):
         base.BaseClient.__init__(self, endpoint)
