@@ -18,8 +18,6 @@
 import os
 
 from d1_generic import generic
-import protobuf_generic.generic_pb2
-import protobuf_generic.authn_pb2
 
 uid = os.environ['D1_UID']
 password = os.environ['D1_PASS']
@@ -30,8 +28,7 @@ def test_generic_client():
 
     client = generic.GenericClient('localhost:9000')
 
-    response = client.authn_stub.LoginUser(
-        protobuf_generic.authn_pb2.LoginUserRequest(user_id=uid, password=password))
+    response = client.login_user(uid, password)
 
     access_token = response.access_token
 
@@ -41,10 +38,9 @@ def test_generic_client():
 
     plaintext = b'Darkwingduck'
 
-    response = client.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest(
-        plaintext=plaintext), metadata=metadata)
+    response = client.encrypt(plaintext, metadata)
 
-    response = client.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest(
-        ciphertext=response.ciphertext, object_id=response.object_id), metadata=metadata)
+    response = client.decrypt(
+        response.ciphertext, response.object_id, metadata)
 
     assert plaintext == response.plaintext

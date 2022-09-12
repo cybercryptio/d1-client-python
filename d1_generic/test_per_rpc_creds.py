@@ -18,8 +18,6 @@
 import os
 
 from d1_generic import generic
-import protobuf_generic.generic_pb2
-import protobuf_generic.authn_pb2
 
 access_token = os.environ['access_token']
 
@@ -33,10 +31,9 @@ def test_per_rpc_creds():
 
     plaintext = b'Darkwingduck'
 
-    response = client.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest(
-        plaintext=plaintext))
+    response = client.encrypt(plaintext)
 
-    response = client.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest(
-        ciphertext=response.ciphertext, object_id=response.object_id))
+    response = client.decrypt(
+        response.ciphertext, response.object_id)
 
     assert plaintext == response.plaintext

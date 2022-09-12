@@ -18,8 +18,6 @@
 import os
 
 from d1_storage import storage
-import protobuf_storage.storage_pb2
-import protobuf_generic.authn_pb2
 
 uid = os.environ['D1_UID']
 password = os.environ['D1_PASS']
@@ -30,8 +28,7 @@ def test_storage_client():
     stored and retrieved correctly."""
     client = storage.StorageClient('localhost:9000')
 
-    response = client.authn_stub.LoginUser(
-        protobuf_generic.authn_pb2.LoginUserRequest(user_id=uid, password=password))
+    response = client.login_user(uid, password)
 
     access_token = response.access_token
 
@@ -42,11 +39,9 @@ def test_storage_client():
     plaintext = b'Darkwingduck'
     associated_data = b'Metadata'
 
-    response = client.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest(
-        plaintext=plaintext, associated_data=associated_data), metadata=metadata)
+    response = client.store(plaintext, associated_data, metadata)
 
-    response = client.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest(
-        object_id=response.object_id), metadata=metadata)
+    response = client.retrieve(response.object_id, metadata)
 
     assert plaintext == response.plaintext
     assert associated_data == response.associated_data

@@ -18,7 +18,6 @@
 import os
 
 from d1_storage import storage
-import protobuf_storage.storage_pb2
 
 access_token = os.environ['access_token']
 
@@ -31,11 +30,9 @@ def test_per_rpc_creds():
     plaintext = b'Darkwingduck'
     associated_data = b'Metadata'
 
-    response = client.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest(
-        plaintext=plaintext, associated_data=associated_data))
+    response = client.store(plaintext, associated_data)
 
-    response = client.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest(
-        object_id=response.object_id))
+    response = client.retrieve(response.object_id)
 
     assert plaintext == response.plaintext
     assert associated_data == response.associated_data

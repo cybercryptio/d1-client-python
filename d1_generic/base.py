@@ -19,6 +19,7 @@ import grpc
 
 import d1_generic.header_manipulator_client_interceptor as interceptor
 import protobuf_generic.authn_pb2_grpc
+import protobuf_generic.authn_pb2
 import protobuf_generic.authz_pb2_grpc
 import protobuf_generic.version_pb2_grpc
 
@@ -48,3 +49,6 @@ class BaseClient:
             channel)
         self.authn_stub = protobuf_generic.authn_pb2_grpc.AuthnStub(channel)
         self.authz_stub = protobuf_generic.authz_pb2_grpc.AuthzStub(channel)
+
+    def login_user(self, user_id, password, metadata=None):
+        return self.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest(user_id=user_id, password=password), metadata=metadata)
