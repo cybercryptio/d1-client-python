@@ -16,16 +16,24 @@
 """A test of an example Storage Client where the access token is given as channel metadata."""
 
 import os
+import grpc
 
 from d1_storage import storage
+import d1_generic.header_manipulator_client_interceptor as interceptor
 
 access_token = os.environ['access_token']
 
 
 def test_per_rpc_creds():
     """Create a new Storage Client and verify that a plaintext can be encrypted and decrypted correctly."""
-    client = storage.StorageClient(
-        'localhost:9000', access_token=access_token)
+
+    header_adder_interceptor = interceptor.header_adder_interceptor(
+        'authorization', f'bearer {access_token}')
+
+    channel = grpc.intercept_channel(
+        grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+    client = storage.StorageClient(channel)
 
     plaintext = b'Darkwingduck'
     associated_data = b'Metadata'

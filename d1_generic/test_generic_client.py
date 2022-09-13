@@ -16,6 +16,7 @@
 """A test of an example Generic Client."""
 
 import os
+import grpc
 
 from d1_generic import generic
 
@@ -26,7 +27,9 @@ password = os.environ['D1_PASS']
 def test_generic_client():
     """Create a new Generic Client and verify that a plaintext can be encrypted and decrypted correctly."""
 
-    client = generic.GenericClient('localhost:9000')
+    channel = grpc.insecure_channel('localhost:9000')
+
+    client = generic.GenericClient(channel)
 
     response = client.login_user(uid, password)
 

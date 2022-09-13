@@ -16,8 +16,10 @@
 """A test of an example Generic Client where the access token is given as channel metadata."""
 
 import os
+import grpc
 
 from d1_generic import generic
+import d1_generic.header_manipulator_client_interceptor as interceptor
 
 access_token = os.environ['access_token']
 
@@ -26,8 +28,13 @@ def test_per_rpc_creds():
     """Create a new Storage Client and verify that a plaintext and associated_data can be 
     stored and retrieved correctly."""
 
-    client = generic.GenericClient(
-        'localhost:9000', access_token=access_token)
+    header_adder_interceptor = interceptor.header_adder_interceptor(
+        'authorization', f'bearer {access_token}')
+
+    channel = grpc.intercept_channel(
+        grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+    client = generic.GenericClient(channel)
 
     plaintext = b'Darkwingduck'
 

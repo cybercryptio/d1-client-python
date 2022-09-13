@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright 2022 CYBERCRYPT
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,24 +25,8 @@ import d1_generic.header_manipulator_client_interceptor as interceptor
 class StorageClient(base.BaseClient):
     """Storage Client can be used to make calls to a D1 Storage service."""
 
-    def __init__(self, endpoint, transport_creds=None, access_token=None):
-        base.BaseClient.__init__(self, endpoint)
-
-        if transport_creds:
-            creds = grpc.composite_channel_credentials(
-                transport_creds, grpc.access_token_call_credentials(access_token))
-            channel = grpc.secure_channel(target=endpoint, credentials=creds)
-
-        else:
-            if access_token:
-                header_adder_interceptor = interceptor.header_adder_interceptor(
-                    'authorization', f'bearer {access_token}')
-
-                channel = grpc.intercept_channel(
-                    grpc.insecure_channel(endpoint), header_adder_interceptor)
-
-            else:
-                channel = grpc.insecure_channel(endpoint)
+    def __init__(self, channel):
+        base.BaseClient.__init__(self, channel)
 
         self.storage_stub = protobuf_storage.storage_pb2_grpc.StorageStub(
             channel)

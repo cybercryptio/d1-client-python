@@ -16,6 +16,7 @@
 """A test of an example Storage Client."""
 
 import os
+import grpc
 
 from d1_storage import storage
 
@@ -26,7 +27,10 @@ password = os.environ['D1_PASS']
 def test_storage_client():
     """Create a new Storage Client and verify that a plaintext and associated_data can be 
     stored and retrieved correctly."""
-    client = storage.StorageClient('localhost:9000')
+
+    channel = grpc.insecure_channel('localhost:9000')
+
+    client = storage.StorageClient(channel)
 
     response = client.login_user(uid, password)
 
