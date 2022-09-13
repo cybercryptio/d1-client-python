@@ -14,12 +14,9 @@
 
 """This module contains the StorageClient class."""
 
-import grpc
-
 from d1_generic import base
 import protobuf_storage.storage_pb2_grpc
 import protobuf_storage.storage_pb2
-import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
 class StorageClient(base.BaseClient):
@@ -32,7 +29,12 @@ class StorageClient(base.BaseClient):
             channel)
 
     def store(self, plaintext, associated_data, metadata=None):
-        return self.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest(plaintext=plaintext, associated_data=associated_data), metadata=metadata)
+        "Store request."
+        return self.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest
+                                       (plaintext=plaintext, associated_data=associated_data),
+                                       metadata=metadata)
 
     def retrieve(self, object_id, metadata=None):
-        return self.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest(object_id=object_id), metadata=metadata)
+        "Retrieve request."
+        return self.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest
+                                          (object_id=object_id), metadata=metadata)

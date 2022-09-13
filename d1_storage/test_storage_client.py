@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright 2022 CYBERCRYPT
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,39 +12,65 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""A test of an example Storage Client."""
+"""Tests of an example Storage Client."""
 
 import os
 import grpc
 
 from d1_storage import storage
-
-uid = os.environ['D1_UID']
-password = os.environ['D1_PASS']
+import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
-def test_storage_client():
-    """Create a new Storage Client and verify that a plaintext and associated_data can be 
-    stored and retrieved correctly."""
+class TestStorageClass:
 
-    channel = grpc.insecure_channel('localhost:9000')
+    def test_storage_client():
+        """Create a new Storage Client and verify that a plaintext and associated_data can be 
+        stored and retrieved correctly."""
 
-    client = storage.StorageClient(channel)
+        uid = os.environ['D1_UID']
+        password = os.environ['D1_PASS']
 
-    response = client.login_user(uid, password)
+        channel = grpc.insecure_channel('localhost:9000')
 
-    access_token = response.access_token
+        client = storage.StorageClient(channel)
 
-    metadata = (
-        ('authorization', f'bearer {access_token}'),
-    )
+        response = client.login_user(uid, password)
 
-    plaintext = b'Darkwingduck'
-    associated_data = b'Metadata'
+        access_token = response.access_token
 
-    response = client.store(plaintext, associated_data, metadata)
+        metadata = (
+            ('authorization', f'bearer {access_token}'),
+        )
 
-    response = client.retrieve(response.object_id, metadata)
+        plaintext = b'Darkwingduck'
+        associated_data = b'Metadata'
 
-    assert plaintext == response.plaintext
-    assert associated_data == response.associated_data
+        response = client.store(plaintext, associated_data, metadata)
+
+        response = client.retrieve(response.object_id, metadata)
+
+        assert plaintext == response.plaintext
+        assert associated_data == response.associated_data
+
+    def test_per_rpc_creds():
+        """Create a new Storage Client and verify that a plaintext can be encrypted and decrypted correctly."""
+
+        access_token = os.environ['access_token']
+
+        header_adder_interceptor = interceptor.header_adder_interceptor(
+            'authorization', f'bearer {access_token}')
+
+        channel = grpc.intercept_channel(
+            grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+        client = storage.StorageClient(channel)
+
+        plaintext = b'Darkwingduck'
+        associated_data = b'Metadata'
+
+        response = client.store(plaintext, associated_data)
+
+        response = client.retrieve(response.object_id)
+
+        assert plaintext == response.plaintext
+        assert associated_data == response.associated_data

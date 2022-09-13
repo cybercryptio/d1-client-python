@@ -1,11 +1,18 @@
 from setuptools import setup
 
+with open("README", 'r') as f:
+    long_description = f.read()
+
 setup(
-    name='D1-client-python',
+    name='d1-client-python',
     version='0.0.0',
-    author='Amalie Due Jensen',
-    install_requires=[
-        "pytest",
-        "pylint",
-    ],
+    description='A Python D1 client',
+    license="Apache License, Version 2.0",
+    long_description=long_description,
+    url="https://github.com/cybercryptio/d1-client-python",
+    packages=['d1-client-python'],
+    install_requires=['grpc', 'grpcio', 'protobuf', 'pytest', 'setuptools'],
+    scripts=[
+        'scripts/copy-client.sh',
+    ]
 )

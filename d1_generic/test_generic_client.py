@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright 2022 CYBERCRYPT
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,37 +12,68 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""A test of an example Generic Client."""
+"""Tests of an example Generic Client."""
 
 import os
 import grpc
+import pytest
 
 from d1_generic import generic
 
-uid = os.environ['D1_UID']
-password = os.environ['D1_PASS']
+import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
-def test_generic_client():
-    """Create a new Generic Client and verify that a plaintext can be encrypted and decrypted correctly."""
+class TestGenericClient:
+    "Tests of Generic Client."
 
-    channel = grpc.insecure_channel('localhost:9000')
+    def test_generic_client():
+        """Create a new Generic Client and verify that a 
+        plaintext can be encrypted and decrypted correctly."""
+        uid = os.environ['D1_UID']
+        password = os.environ['D1_PASS']
 
-    client = generic.GenericClient(channel)
+        channel = grpc.insecure_channel('localhost:9000')
 
-    response = client.login_user(uid, password)
+        client = generic.GenericClient(channel)
 
-    access_token = response.access_token
+        response = client.login_user(uid, password)
 
-    metadata = (
-        ('authorization', f'bearer {access_token}'),
-    )
+        access_token = response.access_token
 
-    plaintext = b'Darkwingduck'
+        metadata = (
+            ('authorization', f'bearer {access_token}'),
+        )
 
-    response = client.encrypt(plaintext, metadata)
+        plaintext = b'Darkwingduck'
 
-    response = client.decrypt(
-        response.ciphertext, response.object_id, metadata)
+        response = client.encrypt(plaintext, metadata)
 
-    assert plaintext == response.plaintext
+        response = client.decrypt(
+            response.ciphertext, response.object_id, metadata)
+
+        assert plaintext == response.plaintext
+
+    access_token = os.environ['access_token']
+
+    def test_per_rpc_creds():
+        """Create a new Generic Client and verify that a plaintext and associated_data can be 
+        stored and retrieved correctly."""
+
+        access_token = os.environ['access_token']
+
+        header_adder_interceptor = interceptor.header_adder_interceptor(
+            'authorization', f'bearer {access_token}')
+
+        channel = grpc.intercept_channel(
+            grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+        client = generic.GenericClient(channel)
+
+        plaintext = b'Darkwingduck'
+
+        response = client.encrypt(plaintext)
+
+        response = client.decrypt(
+            response.ciphertext, response.object_id)
+
+        assert plaintext == response.plaintext

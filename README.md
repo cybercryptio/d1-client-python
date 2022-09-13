@@ -8,16 +8,52 @@ Python client packages for
 
 In order to use the D1 Generic client, you will need credentials for a user. If you are using the built in Standalone ID Provider you can refer to the Getting Started (insert reference) guide for details on how to obtain these. If you are using an OIDC provider you will need to obtain an ID Token in the usual way.
 
+The client can be configured such that the access token is automatically attached to every request as shown in the following example (assuming an insecure channel is preferred):
 ```python
-client = generic.GenericClient(endpoint)
+import grpc
+
+header_adder_interceptor = interceptor.header_adder_interceptor(
+        'authorization', f'bearer {access_token}')
+
+channel = grpc.intercept_channel(
+    grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+client = generic.GenericClient(channel)
+```
+
+Otherwise, the access token should be given as metadata in every request, and in this case the client can be initialized as shown in the following example (assuming an insecure channel is preferred):
+```python
+import grpc
+
+channel = grpc.insecure_channel('localhost:9000')
+
+client = generic.GenericClient(channel)
 ```
 
 ## D1 Storage Client
 
 In order to use the D1 Storage client, you will need credentials for a user. If you are using the built in Standalone ID Provider you can refer to the Getting Started (insert reference) guide for details on how to obtain these. If you are using an OIDC provider you will need to obtain an ID Token in the usual way.
 
+The client can be configured such that the access token is automatically attached to every request as shown in the following example (assuming an insecure channel is preferred):
 ```python
-client = storage.StorageClient(endpoint)
+import grpc
+
+header_adder_interceptor = interceptor.header_adder_interceptor(
+        'authorization', f'bearer {access_token}')
+
+channel = grpc.intercept_channel(
+    grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+
+client = storage.StorageClient(channel)
+```
+
+Otherwise, the access token should be given as metadata in every request, and in this case the client can be initialized as shown in the following example (assuming an insecure channel is preferred):
+```python
+import grpc
+
+channel = grpc.insecure_channel('localhost:9000')
+
+client = storage.StorageClient(channel)
 ```
 
 ## License

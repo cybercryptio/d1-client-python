@@ -14,12 +14,9 @@
 
 """This module contains the GenericClient class."""
 
-import grpc
-
 from d1_generic import base
 import protobuf_generic.generic_pb2_grpc
 import protobuf_generic.generic_pb2
-import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
 class GenericClient(base.BaseClient):
@@ -32,7 +29,12 @@ class GenericClient(base.BaseClient):
             channel)
 
     def encrypt(self, plaintext, metadata=None):
-        return self.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest(plaintext=plaintext), metadata=metadata)
+        "Encrypt request."
+        return self.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest
+                                         (plaintext=plaintext), metadata=metadata)
 
     def decrypt(self, ciphertext, object_id, metadata=None):
-        return self.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest(ciphertext=ciphertext, object_id=object_id), metadata=metadata)
+        "Decrypt request."
+        return self.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest
+                                         (ciphertext=ciphertext, object_id=object_id),
+                                         metadata=metadata)
