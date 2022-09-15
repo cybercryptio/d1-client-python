@@ -11,8 +11,6 @@ setup(
     long_description=long_description,
     url="https://github.com/cybercryptio/d1-client-python",
     packages=['d1-client-python'],
-    install_requires=['grpc', 'grpcio', 'protobuf',
-                      'pytest', 'setuptools', 'pylint'],
     scripts=[
         'scripts/copy-client.sh',
     ]
