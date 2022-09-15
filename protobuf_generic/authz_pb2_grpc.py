@@ -6,7 +6,7 @@ from . import authz_pb2 as authz__pb2
 
 
 class AuthzStub(object):
-    """/ Service for managing authorization rules.
+    """Service for managing authorization rules.
     """
 
     def __init__(self, channel):
@@ -30,40 +30,51 @@ class AuthzStub(object):
                 request_serializer=authz__pb2.RemovePermissionRequest.SerializeToString,
                 response_deserializer=authz__pb2.RemovePermissionResponse.FromString,
                 )
+        self.CheckPermission = channel.unary_unary(
+                '/d1.authz.Authz/CheckPermission',
+                request_serializer=authz__pb2.CheckPermissionRequest.SerializeToString,
+                response_deserializer=authz__pb2.CheckPermissionResponse.FromString,
+                )
 
 
 class AuthzServicer(object):
-    """/ Service for managing authorization rules.
+    """Service for managing authorization rules.
     """
 
     def GetPermissions(self, request, context):
-        """*
-        Returns a list of groups with access to the specified object.
+        """Returns a list of groups with access to the specified object.
         This call can fail if the auth storage cannot be reached, in which case an error is returned.
         The calling user has to be authenticated and authorized to access the object in order to get the object permissions.
-        Requires the scope `OBJECTPERMISSIONS`.
+        Requires the scope `GETACCESS`.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def AddPermission(self, request, context):
-        """*
-        Adds a group to the access list of the specified object.
+        """Adds one or more groups to the access list of the specified object.
         This call can fail if the caller does not have access to the object, if the target group does not exist, or if the auth storage cannot be reached.
         In these cases, an error is returned.
-        Requires the scope `OBJECTPERMISSIONS`.
+        Requires the scope `MODIFYACCESS`.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RemovePermission(self, request, context):
-        """*
-        Removes a group from the access list of the specified object.
+        """Removes one or more groups from the access list of the specified object.
         This call can fail if the caller does not have access to the object or if the auth storage cannot reached.
         In these cases, an error is returned.
-        Requires the scope `OBJECTPERMISSIONS`.
+        Requires the scope `MODIFYACCESS`.
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckPermission(self, request, context):
+        """Checks whether the caller has access to the specified object.
+        This call can fail if the auth storage cannot be reached. In this cases, an error is returned.
+        Requires the scope `GETACCESS`.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -87,6 +98,11 @@ def add_AuthzServicer_to_server(servicer, server):
                     request_deserializer=authz__pb2.RemovePermissionRequest.FromString,
                     response_serializer=authz__pb2.RemovePermissionResponse.SerializeToString,
             ),
+            'CheckPermission': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckPermission,
+                    request_deserializer=authz__pb2.CheckPermissionRequest.FromString,
+                    response_serializer=authz__pb2.CheckPermissionResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'd1.authz.Authz', rpc_method_handlers)
@@ -95,7 +111,7 @@ def add_AuthzServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Authz(object):
-    """/ Service for managing authorization rules.
+    """Service for managing authorization rules.
     """
 
     @staticmethod
@@ -146,5 +162,22 @@ class Authz(object):
         return grpc.experimental.unary_unary(request, target, '/d1.authz.Authz/RemovePermission',
             authz__pb2.RemovePermissionRequest.SerializeToString,
             authz__pb2.RemovePermissionResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CheckPermission(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/d1.authz.Authz/CheckPermission',
+            authz__pb2.CheckPermissionRequest.SerializeToString,
+            authz__pb2.CheckPermissionResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

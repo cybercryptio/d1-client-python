@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from . import scopes_pb2 as scopes__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61uthn.proto\x12\x08\x64\x31.authn\x1a\x0cscopes.proto\"5\n\x11\x43reateUserRequest\x12 \n\x06scopes\x18\x01 \x03(\x0e\x32\x10.d1.scopes.Scope\"7\n\x12\x43reateUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"5\n\x10LoginUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\">\n\x11LoginUserResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x13\n\x0b\x65xpiry_time\x18\x02 \x01(\x03\"$\n\x11RemoveUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"\x14\n\x12RemoveUserResponse\"6\n\x12\x43reateGroupRequest\x12 \n\x06scopes\x18\x01 \x03(\x0e\x32\x10.d1.scopes.Scope\"\'\n\x13\x43reateGroupResponse\x12\x10\n\x08group_id\x18\x01 \x01(\t\":\n\x15\x41\x64\x64UserToGroupRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08group_id\x18\x02 \x01(\t\"\x18\n\x16\x41\x64\x64UserToGroupResponse\"?\n\x1aRemoveUserFromGroupRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08group_id\x18\x02 \x01(\t\"\x1d\n\x1bRemoveUserFromGroupResponse2\xf0\x03\n\x05\x41uthn\x12I\n\nCreateUser\x12\x1b.d1.authn.CreateUserRequest\x1a\x1c.d1.authn.CreateUserResponse\"\x00\x12\x46\n\tLoginUser\x12\x1a.d1.authn.LoginUserRequest\x1a\x1b.d1.authn.LoginUserResponse\"\x00\x12I\n\nRemoveUser\x12\x1b.d1.authn.RemoveUserRequest\x1a\x1c.d1.authn.RemoveUserResponse\"\x00\x12L\n\x0b\x43reateGroup\x12\x1c.d1.authn.CreateGroupRequest\x1a\x1d.d1.authn.CreateGroupResponse\"\x00\x12U\n\x0e\x41\x64\x64UserToGroup\x12\x1f.d1.authn.AddUserToGroupRequest\x1a .d1.authn.AddUserToGroupResponse\"\x00\x12\x64\n\x13RemoveUserFromGroup\x12$.d1.authn.RemoveUserFromGroupRequest\x1a%.d1.authn.RemoveUserFromGroupResponse\"\x00\x42\x8e\x01\n\x1fio.cybercrypt.d1.protobuf.authnB\nAuthnProtoZ9github.com/cybercryptio/d1-service-generic/protobuf/authn\xaa\x02#CyberCrypt.D1.Client.Protobuf.Authnb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61uthn.proto\x12\x08\x64\x31.authn\x1a\x0cscopes.proto\"5\n\x11\x43reateUserRequest\x12 \n\x06scopes\x18\x01 \x03(\x0e\x32\x10.d1.scopes.Scope\"7\n\x12\x43reateUserResponse\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"5\n\x10LoginUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\">\n\x11LoginUserResponse\x12\x14\n\x0c\x61\x63\x63\x65ss_token\x18\x01 \x01(\t\x12\x13\n\x0b\x65xpiry_time\x18\x02 \x01(\x03\"$\n\x11RemoveUserRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\"\x14\n\x12RemoveUserResponse\"6\n\x12\x43reateGroupRequest\x12 \n\x06scopes\x18\x01 \x03(\x0e\x32\x10.d1.scopes.Scope\"\'\n\x13\x43reateGroupResponse\x12\x10\n\x08group_id\x18\x01 \x01(\t\"<\n\x16\x41\x64\x64UserToGroupsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tgroup_ids\x18\x02 \x03(\t\"\x19\n\x17\x41\x64\x64UserToGroupsResponse\"A\n\x1bRemoveUserFromGroupsRequest\x12\x0f\n\x07user_id\x18\x01 \x01(\t\x12\x11\n\tgroup_ids\x18\x02 \x03(\t\"\x1e\n\x1cRemoveUserFromGroupsResponse2\xf6\x03\n\x05\x41uthn\x12I\n\nCreateUser\x12\x1b.d1.authn.CreateUserRequest\x1a\x1c.d1.authn.CreateUserResponse\"\x00\x12\x46\n\tLoginUser\x12\x1a.d1.authn.LoginUserRequest\x1a\x1b.d1.authn.LoginUserResponse\"\x00\x12I\n\nRemoveUser\x12\x1b.d1.authn.RemoveUserRequest\x1a\x1c.d1.authn.RemoveUserResponse\"\x00\x12L\n\x0b\x43reateGroup\x12\x1c.d1.authn.CreateGroupRequest\x1a\x1d.d1.authn.CreateGroupResponse\"\x00\x12X\n\x0f\x41\x64\x64UserToGroups\x12 .d1.authn.AddUserToGroupsRequest\x1a!.d1.authn.AddUserToGroupsResponse\"\x00\x12g\n\x14RemoveUserFromGroups\x12%.d1.authn.RemoveUserFromGroupsRequest\x1a&.d1.authn.RemoveUserFromGroupsResponse\"\x00\x42\x8e\x01\n\x1fio.cybercrypt.d1.protobuf.authnB\nAuthnProtoZ9github.com/cybercryptio/d1-service-generic/protobuf/authn\xaa\x02#CyberCrypt.D1.Client.Protobuf.Authnb\x06proto3')
 
 
 
@@ -27,10 +27,10 @@ _REMOVEUSERREQUEST = DESCRIPTOR.message_types_by_name['RemoveUserRequest']
 _REMOVEUSERRESPONSE = DESCRIPTOR.message_types_by_name['RemoveUserResponse']
 _CREATEGROUPREQUEST = DESCRIPTOR.message_types_by_name['CreateGroupRequest']
 _CREATEGROUPRESPONSE = DESCRIPTOR.message_types_by_name['CreateGroupResponse']
-_ADDUSERTOGROUPREQUEST = DESCRIPTOR.message_types_by_name['AddUserToGroupRequest']
-_ADDUSERTOGROUPRESPONSE = DESCRIPTOR.message_types_by_name['AddUserToGroupResponse']
-_REMOVEUSERFROMGROUPREQUEST = DESCRIPTOR.message_types_by_name['RemoveUserFromGroupRequest']
-_REMOVEUSERFROMGROUPRESPONSE = DESCRIPTOR.message_types_by_name['RemoveUserFromGroupResponse']
+_ADDUSERTOGROUPSREQUEST = DESCRIPTOR.message_types_by_name['AddUserToGroupsRequest']
+_ADDUSERTOGROUPSRESPONSE = DESCRIPTOR.message_types_by_name['AddUserToGroupsResponse']
+_REMOVEUSERFROMGROUPSREQUEST = DESCRIPTOR.message_types_by_name['RemoveUserFromGroupsRequest']
+_REMOVEUSERFROMGROUPSRESPONSE = DESCRIPTOR.message_types_by_name['RemoveUserFromGroupsResponse']
 CreateUserRequest = _reflection.GeneratedProtocolMessageType('CreateUserRequest', (_message.Message,), {
   'DESCRIPTOR' : _CREATEUSERREQUEST,
   '__module__' : 'authn_pb2'
@@ -87,33 +87,33 @@ CreateGroupResponse = _reflection.GeneratedProtocolMessageType('CreateGroupRespo
   })
 _sym_db.RegisterMessage(CreateGroupResponse)
 
-AddUserToGroupRequest = _reflection.GeneratedProtocolMessageType('AddUserToGroupRequest', (_message.Message,), {
-  'DESCRIPTOR' : _ADDUSERTOGROUPREQUEST,
+AddUserToGroupsRequest = _reflection.GeneratedProtocolMessageType('AddUserToGroupsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _ADDUSERTOGROUPSREQUEST,
   '__module__' : 'authn_pb2'
-  # @@protoc_insertion_point(class_scope:d1.authn.AddUserToGroupRequest)
+  # @@protoc_insertion_point(class_scope:d1.authn.AddUserToGroupsRequest)
   })
-_sym_db.RegisterMessage(AddUserToGroupRequest)
+_sym_db.RegisterMessage(AddUserToGroupsRequest)
 
-AddUserToGroupResponse = _reflection.GeneratedProtocolMessageType('AddUserToGroupResponse', (_message.Message,), {
-  'DESCRIPTOR' : _ADDUSERTOGROUPRESPONSE,
+AddUserToGroupsResponse = _reflection.GeneratedProtocolMessageType('AddUserToGroupsResponse', (_message.Message,), {
+  'DESCRIPTOR' : _ADDUSERTOGROUPSRESPONSE,
   '__module__' : 'authn_pb2'
-  # @@protoc_insertion_point(class_scope:d1.authn.AddUserToGroupResponse)
+  # @@protoc_insertion_point(class_scope:d1.authn.AddUserToGroupsResponse)
   })
-_sym_db.RegisterMessage(AddUserToGroupResponse)
+_sym_db.RegisterMessage(AddUserToGroupsResponse)
 
-RemoveUserFromGroupRequest = _reflection.GeneratedProtocolMessageType('RemoveUserFromGroupRequest', (_message.Message,), {
-  'DESCRIPTOR' : _REMOVEUSERFROMGROUPREQUEST,
+RemoveUserFromGroupsRequest = _reflection.GeneratedProtocolMessageType('RemoveUserFromGroupsRequest', (_message.Message,), {
+  'DESCRIPTOR' : _REMOVEUSERFROMGROUPSREQUEST,
   '__module__' : 'authn_pb2'
-  # @@protoc_insertion_point(class_scope:d1.authn.RemoveUserFromGroupRequest)
+  # @@protoc_insertion_point(class_scope:d1.authn.RemoveUserFromGroupsRequest)
   })
-_sym_db.RegisterMessage(RemoveUserFromGroupRequest)
+_sym_db.RegisterMessage(RemoveUserFromGroupsRequest)
 
-RemoveUserFromGroupResponse = _reflection.GeneratedProtocolMessageType('RemoveUserFromGroupResponse', (_message.Message,), {
-  'DESCRIPTOR' : _REMOVEUSERFROMGROUPRESPONSE,
+RemoveUserFromGroupsResponse = _reflection.GeneratedProtocolMessageType('RemoveUserFromGroupsResponse', (_message.Message,), {
+  'DESCRIPTOR' : _REMOVEUSERFROMGROUPSRESPONSE,
   '__module__' : 'authn_pb2'
-  # @@protoc_insertion_point(class_scope:d1.authn.RemoveUserFromGroupResponse)
+  # @@protoc_insertion_point(class_scope:d1.authn.RemoveUserFromGroupsResponse)
   })
-_sym_db.RegisterMessage(RemoveUserFromGroupResponse)
+_sym_db.RegisterMessage(RemoveUserFromGroupsResponse)
 
 _AUTHN = DESCRIPTOR.services_by_name['Authn']
 if _descriptor._USE_C_DESCRIPTORS == False:
@@ -136,14 +136,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CREATEGROUPREQUEST._serialized_end=384
   _CREATEGROUPRESPONSE._serialized_start=386
   _CREATEGROUPRESPONSE._serialized_end=425
-  _ADDUSERTOGROUPREQUEST._serialized_start=427
-  _ADDUSERTOGROUPREQUEST._serialized_end=485
-  _ADDUSERTOGROUPRESPONSE._serialized_start=487
-  _ADDUSERTOGROUPRESPONSE._serialized_end=511
-  _REMOVEUSERFROMGROUPREQUEST._serialized_start=513
-  _REMOVEUSERFROMGROUPREQUEST._serialized_end=576
-  _REMOVEUSERFROMGROUPRESPONSE._serialized_start=578
-  _REMOVEUSERFROMGROUPRESPONSE._serialized_end=607
-  _AUTHN._serialized_start=610
-  _AUTHN._serialized_end=1106
+  _ADDUSERTOGROUPSREQUEST._serialized_start=427
+  _ADDUSERTOGROUPSREQUEST._serialized_end=487
+  _ADDUSERTOGROUPSRESPONSE._serialized_start=489
+  _ADDUSERTOGROUPSRESPONSE._serialized_end=514
+  _REMOVEUSERFROMGROUPSREQUEST._serialized_start=516
+  _REMOVEUSERFROMGROUPSREQUEST._serialized_end=581
+  _REMOVEUSERFROMGROUPSRESPONSE._serialized_start=583
+  _REMOVEUSERFROMGROUPSRESPONSE._serialized_end=613
+  _AUTHN._serialized_start=616
+  _AUTHN._serialized_end=1118
 # @@protoc_insertion_point(module_scope)

@@ -14,6 +14,9 @@
 """Base class for interceptors that operate on all RPC types."""
 
 # From https://github.com/grpc/grpc/blob/master/examples/python/interceptors/headers/generic_client_interceptor.py
+
+# pylint: skip-file
+
 import grpc
 
 

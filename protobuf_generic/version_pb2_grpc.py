@@ -6,7 +6,7 @@ from . import version_pb2 as version__pb2
 
 
 class VersionStub(object):
-    """/ Service for getting version information.
+    """Service for getting version information.
     """
 
     def __init__(self, channel):
@@ -23,11 +23,11 @@ class VersionStub(object):
 
 
 class VersionServicer(object):
-    """/ Service for getting version information.
+    """Service for getting version information.
     """
 
     def Version(self, request, context):
-        """/ Returns the versions of the currently running service.
+        """Returns the versions of the currently running service.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -49,7 +49,7 @@ def add_VersionServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Version(object):
-    """/ Service for getting version information.
+    """Service for getting version information.
     """
 
     @staticmethod

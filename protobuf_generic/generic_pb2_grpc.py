@@ -6,7 +6,7 @@ from . import generic_pb2 as generic__pb2
 
 
 class GenericStub(object):
-    """/ Service for encryption and decryption of data.
+    """Service for encryption and decryption of data.
     """
 
     def __init__(self, channel):
@@ -28,7 +28,7 @@ class GenericStub(object):
 
 
 class GenericServicer(object):
-    """/ Service for encryption and decryption of data.
+    """Service for encryption and decryption of data.
     """
 
     def Encrypt(self, request, context):
@@ -66,7 +66,7 @@ def add_GenericServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Generic(object):
-    """/ Service for encryption and decryption of data.
+    """Service for encryption and decryption of data.
     """
 
     @staticmethod

@@ -1,7 +1,3 @@
 # Folders
 __pycache__/
 .pytest_cache/
-
-# Files
-protobuf_generic/*.proto
-protobuf_storage/*.proto

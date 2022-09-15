@@ -6,7 +6,7 @@ from . import authn_pb2 as authn__pb2
 
 
 class AuthnStub(object):
-    """/ Service for user management.
+    """Service for user management.
     > NOTE: This API is only exposed when the D1 service is configured to use the standalone ID provider.
     """
 
@@ -36,26 +36,25 @@ class AuthnStub(object):
                 request_serializer=authn__pb2.CreateGroupRequest.SerializeToString,
                 response_deserializer=authn__pb2.CreateGroupResponse.FromString,
                 )
-        self.AddUserToGroup = channel.unary_unary(
-                '/d1.authn.Authn/AddUserToGroup',
-                request_serializer=authn__pb2.AddUserToGroupRequest.SerializeToString,
-                response_deserializer=authn__pb2.AddUserToGroupResponse.FromString,
+        self.AddUserToGroups = channel.unary_unary(
+                '/d1.authn.Authn/AddUserToGroups',
+                request_serializer=authn__pb2.AddUserToGroupsRequest.SerializeToString,
+                response_deserializer=authn__pb2.AddUserToGroupsResponse.FromString,
                 )
-        self.RemoveUserFromGroup = channel.unary_unary(
-                '/d1.authn.Authn/RemoveUserFromGroup',
-                request_serializer=authn__pb2.RemoveUserFromGroupRequest.SerializeToString,
-                response_deserializer=authn__pb2.RemoveUserFromGroupResponse.FromString,
+        self.RemoveUserFromGroups = channel.unary_unary(
+                '/d1.authn.Authn/RemoveUserFromGroups',
+                request_serializer=authn__pb2.RemoveUserFromGroupsRequest.SerializeToString,
+                response_deserializer=authn__pb2.RemoveUserFromGroupsResponse.FromString,
                 )
 
 
 class AuthnServicer(object):
-    """/ Service for user management.
+    """Service for user management.
     > NOTE: This API is only exposed when the D1 service is configured to use the standalone ID provider.
     """
 
     def CreateUser(self, request, context):
-        """*
-        Creates a new user.
+        """Creates a new user.
         This call can fail if the auth storage cannot be reached, in which case an error is returned.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -63,8 +62,7 @@ class AuthnServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def LoginUser(self, request, context):
-        """*
-        Logs in an existing user, returning a User Access Token and an expiry time.
+        """Logs in an existing user, returning a User Access Token and an expiry time.
         This call can fail if the caller provides the wrong credentials or if the auth storage cannot be reached,
         in which case an error is returned.
         """
@@ -73,8 +71,7 @@ class AuthnServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def RemoveUser(self, request, context):
-        """*
-        Deletes an existing user.
+        """Deletes an existing user.
         This call can fail if the user does not exist,
         or if the auth storage cannot be reached, in which case an error is returned.
         """
@@ -83,8 +80,7 @@ class AuthnServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def CreateGroup(self, request, context):
-        """*
-        Creates a new group with the requested scopes. The caller is added to the group.
+        """Creates a new group with the requested scopes. The caller is added to the group.
         This call can fail if the auth storage cannot be reached,
         in which case an error is returned.
         """
@@ -92,9 +88,8 @@ class AuthnServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def AddUserToGroup(self, request, context):
-        """*
-        Adds a user to a group.
+    def AddUserToGroups(self, request, context):
+        """Adds a user to one or more groups.
         This call can fail if the auth storage cannot be reached,
         in which case an error is returned.
         """
@@ -102,9 +97,8 @@ class AuthnServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def RemoveUserFromGroup(self, request, context):
-        """*
-        Removes a user from a group.
+    def RemoveUserFromGroups(self, request, context):
+        """Removes a user from one or more groups.
         This call can fail if the auth storage cannot be reached,
         in which case an error is returned.
         """
@@ -135,15 +129,15 @@ def add_AuthnServicer_to_server(servicer, server):
                     request_deserializer=authn__pb2.CreateGroupRequest.FromString,
                     response_serializer=authn__pb2.CreateGroupResponse.SerializeToString,
             ),
-            'AddUserToGroup': grpc.unary_unary_rpc_method_handler(
-                    servicer.AddUserToGroup,
-                    request_deserializer=authn__pb2.AddUserToGroupRequest.FromString,
-                    response_serializer=authn__pb2.AddUserToGroupResponse.SerializeToString,
+            'AddUserToGroups': grpc.unary_unary_rpc_method_handler(
+                    servicer.AddUserToGroups,
+                    request_deserializer=authn__pb2.AddUserToGroupsRequest.FromString,
+                    response_serializer=authn__pb2.AddUserToGroupsResponse.SerializeToString,
             ),
-            'RemoveUserFromGroup': grpc.unary_unary_rpc_method_handler(
-                    servicer.RemoveUserFromGroup,
-                    request_deserializer=authn__pb2.RemoveUserFromGroupRequest.FromString,
-                    response_serializer=authn__pb2.RemoveUserFromGroupResponse.SerializeToString,
+            'RemoveUserFromGroups': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoveUserFromGroups,
+                    request_deserializer=authn__pb2.RemoveUserFromGroupsRequest.FromString,
+                    response_serializer=authn__pb2.RemoveUserFromGroupsResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -153,7 +147,7 @@ def add_AuthnServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Authn(object):
-    """/ Service for user management.
+    """Service for user management.
     > NOTE: This API is only exposed when the D1 service is configured to use the standalone ID provider.
     """
 
@@ -226,7 +220,7 @@ class Authn(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def AddUserToGroup(request,
+    def AddUserToGroups(request,
             target,
             options=(),
             channel_credentials=None,
@@ -236,14 +230,14 @@ class Authn(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/d1.authn.Authn/AddUserToGroup',
-            authn__pb2.AddUserToGroupRequest.SerializeToString,
-            authn__pb2.AddUserToGroupResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/d1.authn.Authn/AddUserToGroups',
+            authn__pb2.AddUserToGroupsRequest.SerializeToString,
+            authn__pb2.AddUserToGroupsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def RemoveUserFromGroup(request,
+    def RemoveUserFromGroups(request,
             target,
             options=(),
             channel_credentials=None,
@@ -253,8 +247,8 @@ class Authn(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/d1.authn.Authn/RemoveUserFromGroup',
-            authn__pb2.RemoveUserFromGroupRequest.SerializeToString,
-            authn__pb2.RemoveUserFromGroupResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/d1.authn.Authn/RemoveUserFromGroups',
+            authn__pb2.RemoveUserFromGroupsRequest.SerializeToString,
+            authn__pb2.RemoveUserFromGroupsResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

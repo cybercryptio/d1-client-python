@@ -20,7 +20,7 @@ import protobuf_generic.authz_pb2_grpc
 import protobuf_generic.version_pb2_grpc
 
 
-class BaseClient:
+class BaseClient:  # pylint: disable=too-few-public-methods
     """BaseClient represents the shared functionality between various D1 services."""
 
     def __init__(self, channel):

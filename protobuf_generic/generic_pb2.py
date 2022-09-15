@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgeneric.proto\x12\nd1.generic\"<\n\x0e\x45ncryptRequest\x12\x11\n\tplaintext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\"Q\n\x0f\x45ncryptResponse\x12\x12\n\nciphertext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x12\x11\n\tobject_id\x18\x03 \x01(\t\"P\n\x0e\x44\x65\x63ryptRequest\x12\x12\n\nciphertext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x12\x11\n\tobject_id\x18\x03 \x01(\t\"=\n\x0f\x44\x65\x63ryptResponse\x12\x11\n\tplaintext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x32\x95\x01\n\x07Generic\x12\x44\n\x07\x45ncrypt\x12\x1a.d1.generic.EncryptRequest\x1a\x1b.d1.generic.EncryptResponse\"\x00\x12\x44\n\x07\x44\x65\x63rypt\x12\x1a.d1.generic.DecryptRequest\x1a\x1b.d1.generic.DecryptResponse\"\x00\x42\x96\x01\n!io.cybercrypt.d1.protobuf.genericB\x0cGenericProtoZ;github.com/cybercryptio/d1-service-generic/protobuf/generic\xaa\x02%CyberCrypt.D1.Client.Protobuf.Genericb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rgeneric.proto\x12\nd1.generic\"O\n\x0e\x45ncryptRequest\x12\x11\n\tplaintext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x12\x11\n\tgroup_ids\x18\x03 \x03(\t\"Q\n\x0f\x45ncryptResponse\x12\x12\n\nciphertext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x12\x11\n\tobject_id\x18\x03 \x01(\t\"P\n\x0e\x44\x65\x63ryptRequest\x12\x12\n\nciphertext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x12\x11\n\tobject_id\x18\x03 \x01(\t\"=\n\x0f\x44\x65\x63ryptResponse\x12\x11\n\tplaintext\x18\x01 \x01(\x0c\x12\x17\n\x0f\x61ssociated_data\x18\x02 \x01(\x0c\x32\x95\x01\n\x07Generic\x12\x44\n\x07\x45ncrypt\x12\x1a.d1.generic.EncryptRequest\x1a\x1b.d1.generic.EncryptResponse\"\x00\x12\x44\n\x07\x44\x65\x63rypt\x12\x1a.d1.generic.DecryptRequest\x1a\x1b.d1.generic.DecryptResponse\"\x00\x42\x96\x01\n!io.cybercrypt.d1.protobuf.genericB\x0cGenericProtoZ;github.com/cybercryptio/d1-service-generic/protobuf/generic\xaa\x02%CyberCrypt.D1.Client.Protobuf.Genericb\x06proto3')
 
 
 
@@ -56,13 +56,13 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n!io.cybercrypt.d1.protobuf.genericB\014GenericProtoZ;github.com/cybercryptio/d1-service-generic/protobuf/generic\252\002%CyberCrypt.D1.Client.Protobuf.Generic'
   _ENCRYPTREQUEST._serialized_start=29
-  _ENCRYPTREQUEST._serialized_end=89
-  _ENCRYPTRESPONSE._serialized_start=91
-  _ENCRYPTRESPONSE._serialized_end=172
-  _DECRYPTREQUEST._serialized_start=174
-  _DECRYPTREQUEST._serialized_end=254
-  _DECRYPTRESPONSE._serialized_start=256
-  _DECRYPTRESPONSE._serialized_end=317
-  _GENERIC._serialized_start=320
-  _GENERIC._serialized_end=469
+  _ENCRYPTREQUEST._serialized_end=108
+  _ENCRYPTRESPONSE._serialized_start=110
+  _ENCRYPTRESPONSE._serialized_end=191
+  _DECRYPTREQUEST._serialized_start=193
+  _DECRYPTREQUEST._serialized_end=273
+  _DECRYPTRESPONSE._serialized_start=275
+  _DECRYPTRESPONSE._serialized_end=336
+  _GENERIC._serialized_start=339
+  _GENERIC._serialized_end=488
 # @@protoc_insertion_point(module_scope)

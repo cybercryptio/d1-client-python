@@ -62,3 +62,12 @@ docker-storage-test-up: ## Start docker D1 Storage test environment
 .PHONY: docker-storage-test-down
 docker-storage-test-down: ## Stop docker D1 Storage test environment
 	docker-compose --profile storage -f test/d1/compose.yaml down -v
+
+##### Copy targets #####
+.PHONY: copy-generic-client
+copy-generic-client: ## Copy D1 Generic client source code into this repo
+	./scripts/copy-client.sh generic
+
+.PHONY: copy-storage-client
+copy-storage-client: ## Copy D1 Storage client source code into this repo
+	./scripts/copy-client.sh storage

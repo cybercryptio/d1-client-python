@@ -22,9 +22,10 @@ import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
 class TestStorageClass:
+    """Tests of Storage Class."""
 
-    def test_storage_client():
-        """Create a new Storage Client and verify that a plaintext and associated_data can be 
+    def test_storage_client(self):
+        """Create a new Storage Client and verify that a plaintext and associated_data can be
         stored and retrieved correctly."""
 
         uid = os.environ['D1_UID']
@@ -52,8 +53,9 @@ class TestStorageClass:
         assert plaintext == response.plaintext
         assert associated_data == response.associated_data
 
-    def test_per_rpc_creds():
-        """Create a new Storage Client and verify that a plaintext can be encrypted and decrypted correctly."""
+    def test_per_rpc_creds(self):
+        """Create a new Storage Client and verify that a plaintext
+        can be encrypted and decrypted correctly."""
 
         access_token = os.environ['access_token']
 

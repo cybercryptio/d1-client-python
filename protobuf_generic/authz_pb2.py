@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61uthz.proto\x12\x08\x64\x31.authz\"*\n\x15GetPermissionsRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\"+\n\x16GetPermissionsResponse\x12\x11\n\tgroup_ids\x18\x01 \x03(\t\";\n\x14\x41\x64\x64PermissionRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\x12\x10\n\x08group_id\x18\x02 \x01(\t\"\x17\n\x15\x41\x64\x64PermissionResponse\">\n\x17RemovePermissionRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\x12\x10\n\x08group_id\x18\x02 \x01(\t\"\x1a\n\x18RemovePermissionResponse2\x8f\x02\n\x05\x41uthz\x12U\n\x0eGetPermissions\x12\x1f.d1.authz.GetPermissionsRequest\x1a .d1.authz.GetPermissionsResponse\"\x00\x12R\n\rAddPermission\x12\x1e.d1.authz.AddPermissionRequest\x1a\x1f.d1.authz.AddPermissionResponse\"\x00\x12[\n\x10RemovePermission\x12!.d1.authz.RemovePermissionRequest\x1a\".d1.authz.RemovePermissionResponse\"\x00\x42\x8e\x01\n\x1fio.cybercrypt.d1.protobuf.authzB\nAuthzProtoZ9github.com/cybercryptio/d1-service-generic/protobuf/authz\xaa\x02#CyberCrypt.D1.Client.Protobuf.Authzb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0b\x61uthz.proto\x12\x08\x64\x31.authz\"*\n\x15GetPermissionsRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\"+\n\x16GetPermissionsResponse\x12\x11\n\tgroup_ids\x18\x01 \x03(\t\"<\n\x14\x41\x64\x64PermissionRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\x12\x11\n\tgroup_ids\x18\x02 \x03(\t\"\x17\n\x15\x41\x64\x64PermissionResponse\"?\n\x17RemovePermissionRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\x12\x11\n\tgroup_ids\x18\x02 \x03(\t\"\x1a\n\x18RemovePermissionResponse\"+\n\x16\x43heckPermissionRequest\x12\x11\n\tobject_id\x18\x01 \x01(\t\"1\n\x17\x43heckPermissionResponse\x12\x16\n\x0ehas_permission\x18\x01 \x01(\x08\x32\xe9\x02\n\x05\x41uthz\x12U\n\x0eGetPermissions\x12\x1f.d1.authz.GetPermissionsRequest\x1a .d1.authz.GetPermissionsResponse\"\x00\x12R\n\rAddPermission\x12\x1e.d1.authz.AddPermissionRequest\x1a\x1f.d1.authz.AddPermissionResponse\"\x00\x12[\n\x10RemovePermission\x12!.d1.authz.RemovePermissionRequest\x1a\".d1.authz.RemovePermissionResponse\"\x00\x12X\n\x0f\x43heckPermission\x12 .d1.authz.CheckPermissionRequest\x1a!.d1.authz.CheckPermissionResponse\"\x00\x42\x8e\x01\n\x1fio.cybercrypt.d1.protobuf.authzB\nAuthzProtoZ9github.com/cybercryptio/d1-service-generic/protobuf/authz\xaa\x02#CyberCrypt.D1.Client.Protobuf.Authzb\x06proto3')
 
 
 
@@ -24,6 +24,8 @@ _ADDPERMISSIONREQUEST = DESCRIPTOR.message_types_by_name['AddPermissionRequest']
 _ADDPERMISSIONRESPONSE = DESCRIPTOR.message_types_by_name['AddPermissionResponse']
 _REMOVEPERMISSIONREQUEST = DESCRIPTOR.message_types_by_name['RemovePermissionRequest']
 _REMOVEPERMISSIONRESPONSE = DESCRIPTOR.message_types_by_name['RemovePermissionResponse']
+_CHECKPERMISSIONREQUEST = DESCRIPTOR.message_types_by_name['CheckPermissionRequest']
+_CHECKPERMISSIONRESPONSE = DESCRIPTOR.message_types_by_name['CheckPermissionResponse']
 GetPermissionsRequest = _reflection.GeneratedProtocolMessageType('GetPermissionsRequest', (_message.Message,), {
   'DESCRIPTOR' : _GETPERMISSIONSREQUEST,
   '__module__' : 'authz_pb2'
@@ -66,6 +68,20 @@ RemovePermissionResponse = _reflection.GeneratedProtocolMessageType('RemovePermi
   })
 _sym_db.RegisterMessage(RemovePermissionResponse)
 
+CheckPermissionRequest = _reflection.GeneratedProtocolMessageType('CheckPermissionRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKPERMISSIONREQUEST,
+  '__module__' : 'authz_pb2'
+  # @@protoc_insertion_point(class_scope:d1.authz.CheckPermissionRequest)
+  })
+_sym_db.RegisterMessage(CheckPermissionRequest)
+
+CheckPermissionResponse = _reflection.GeneratedProtocolMessageType('CheckPermissionResponse', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKPERMISSIONRESPONSE,
+  '__module__' : 'authz_pb2'
+  # @@protoc_insertion_point(class_scope:d1.authz.CheckPermissionResponse)
+  })
+_sym_db.RegisterMessage(CheckPermissionResponse)
+
 _AUTHZ = DESCRIPTOR.services_by_name['Authz']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -76,13 +92,17 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _GETPERMISSIONSRESPONSE._serialized_start=69
   _GETPERMISSIONSRESPONSE._serialized_end=112
   _ADDPERMISSIONREQUEST._serialized_start=114
-  _ADDPERMISSIONREQUEST._serialized_end=173
-  _ADDPERMISSIONRESPONSE._serialized_start=175
-  _ADDPERMISSIONRESPONSE._serialized_end=198
-  _REMOVEPERMISSIONREQUEST._serialized_start=200
-  _REMOVEPERMISSIONREQUEST._serialized_end=262
-  _REMOVEPERMISSIONRESPONSE._serialized_start=264
-  _REMOVEPERMISSIONRESPONSE._serialized_end=290
-  _AUTHZ._serialized_start=293
-  _AUTHZ._serialized_end=564
+  _ADDPERMISSIONREQUEST._serialized_end=174
+  _ADDPERMISSIONRESPONSE._serialized_start=176
+  _ADDPERMISSIONRESPONSE._serialized_end=199
+  _REMOVEPERMISSIONREQUEST._serialized_start=201
+  _REMOVEPERMISSIONREQUEST._serialized_end=264
+  _REMOVEPERMISSIONRESPONSE._serialized_start=266
+  _REMOVEPERMISSIONRESPONSE._serialized_end=292
+  _CHECKPERMISSIONREQUEST._serialized_start=294
+  _CHECKPERMISSIONREQUEST._serialized_end=337
+  _CHECKPERMISSIONRESPONSE._serialized_start=339
+  _CHECKPERMISSIONRESPONSE._serialized_end=388
+  _AUTHZ._serialized_start=391
+  _AUTHZ._serialized_end=752
 # @@protoc_insertion_point(module_scope)

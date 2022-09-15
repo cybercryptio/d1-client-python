@@ -6,7 +6,7 @@ from . import index_pb2 as index__pb2
 
 
 class IndexStub(object):
-    """/ Service for using secure index.
+    """Service for using secure index.
     """
 
     def __init__(self, channel):
@@ -33,7 +33,7 @@ class IndexStub(object):
 
 
 class IndexServicer(object):
-    """/ Service for using secure index.
+    """Service for using secure index.
     """
 
     def Add(self, request, context):
@@ -83,7 +83,7 @@ def add_IndexServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Index(object):
-    """/ Service for using secure index.
+    """Service for using secure index.
     """
 
     @staticmethod

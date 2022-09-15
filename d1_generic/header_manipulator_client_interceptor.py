@@ -15,6 +15,8 @@
 # From https://github.com/grpc/grpc/blob/master/examples/python/interceptors/headers/header_manipulator_client_interceptor.py
 """Interceptor that adds headers to outgoing requests."""
 
+# pylint: skip-file
+
 import collections
 import grpc
 
@@ -30,8 +32,6 @@ class _ClientCallDetails(
 
 
 def header_adder_interceptor(header, value):
-    """Docstring..."""
-
     def intercept_call(client_call_details, request_iterator, request_streaming,
                        response_streaming):
         metadata = []

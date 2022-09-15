@@ -1,0 +1,134 @@
+// Copyright 2020-2022 CYBERCRYPT
+
+// > NOTE: This API is only exposed when the D1 service is configured to use the standalone ID provider.
+syntax = "proto3";
+
+package d1.authn;
+
+import "scopes.proto";
+
+option go_package = "github.com/cybercryptio/d1-service-generic/protobuf/authn";
+option csharp_namespace = "CyberCrypt.D1.Client.Protobuf.Authn";
+option java_package = "io.cybercrypt.d1.protobuf.authn";
+option java_outer_classname = "AuthnProto";
+
+// Service for user management.
+// > NOTE: This API is only exposed when the D1 service is configured to use the standalone ID provider.
+service Authn {
+  // Creates a new user.
+  // This call can fail if the auth storage cannot be reached, in which case an error is returned.
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse) {}
+
+  // Logs in an existing user, returning a User Access Token and an expiry time.
+  // This call can fail if the caller provides the wrong credentials or if the auth storage cannot be reached,
+  // in which case an error is returned.
+  rpc LoginUser (LoginUserRequest) returns (LoginUserResponse) {}
+
+  // Deletes an existing user.
+  // This call can fail if the user does not exist,
+  // or if the auth storage cannot be reached, in which case an error is returned.
+  rpc RemoveUser (RemoveUserRequest) returns (RemoveUserResponse) {}
+
+  // Creates a new group with the requested scopes. The caller is added to the group.
+  // This call can fail if the auth storage cannot be reached,
+  // in which case an error is returned.
+  rpc CreateGroup (CreateGroupRequest) returns (CreateGroupResponse) {}
+
+  // Adds a user to one or more groups.
+  // This call can fail if the auth storage cannot be reached,
+  // in which case an error is returned.
+  rpc AddUserToGroups (AddUserToGroupsRequest) returns (AddUserToGroupsResponse) {}
+
+  // Removes a user from one or more groups.
+  // This call can fail if the auth storage cannot be reached,
+  // in which case an error is returned.
+  rpc RemoveUserFromGroups (RemoveUserFromGroupsRequest) returns (RemoveUserFromGroupsResponse) {}
+}
+
+// Represents creation of a new user.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message CreateUserRequest {
+  // The scopes the user should be assigned.
+  repeated d1.scopes.Scope scopes = 1;
+}
+
+// Represents the result of a user creation.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message CreateUserResponse {
+  // ID of the new user.
+  string user_id = 1;
+  // The users password.
+  string password = 2;
+}
+
+// Represents the user login.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message LoginUserRequest {
+  // ID of the user.
+  string user_id = 1;
+  // The users password.
+  string password = 2;
+}
+
+// Represents the result of a user login.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message LoginUserResponse {
+  // Access token to be used in subsequent requests.
+  string access_token = 1;
+  // The expiration time of the access token.
+  int64 expiry_time = 2;
+}
+
+// Represents the removal of a user.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message RemoveUserRequest {
+  // ID of the user to remove.
+  string user_id = 1;
+}
+
+// Represents the result of a user removal.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message RemoveUserResponse {
+}
+
+// Represents creation of a new group.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message CreateGroupRequest {
+  // The scopes the group should be assigned.
+  repeated d1.scopes.Scope scopes = 1;
+}
+
+// Represents the result of a group creation.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message CreateGroupResponse {
+  // ID of the new group.
+  string group_id = 1;
+}
+
+// Represents the addition of a user to one or more groups.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message AddUserToGroupsRequest {
+  // ID of the user to add.
+  string user_id = 1;
+  // IDs of the groups the user should be added to.
+  repeated string group_ids = 2;
+}
+
+// Represents the result of a user addition to groups.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message AddUserToGroupsResponse {
+}
+
+// Represents the removal of a user from one or more groups.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message RemoveUserFromGroupsRequest {
+  // ID of the user to remove.
+  string user_id = 1;
+  // IDs of the groups the user should be removed from.
+  repeated string group_ids = 2;
+}
+
+// Represents the result of a user removal from groups.
+// > NOTE: This is only exposed when the D1 service is configured to use the standalone ID provider.
+message RemoveUserFromGroupsResponse {
+}
