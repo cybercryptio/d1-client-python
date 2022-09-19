@@ -23,22 +23,12 @@ import protobuf_generic.version_pb2_grpc
 class BaseClient:  # pylint: disable=too-few-public-methods
     """BaseClient represents the shared functionality between various D1 services."""
 
-    def __init__(self, channel, user_id=None, password=None):
+    def __init__(self, channel):
 
         self._version_stub = protobuf_generic.version_pb2_grpc.VersionStub(
             channel)
         self._authn_stub = protobuf_generic.authn_pb2_grpc.AuthnStub(channel)
         self._authz_stub = protobuf_generic.authz_pb2_grpc.AuthzStub(channel)
-
-        if user_id and password:
-            self._access_token = self._set_access_token(user_id, password)
-
-    def _set_access_token(self, user_id, password):
-        "New per rpc token saves the access token from the login user response."
-        response = self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
-                                              (user_id=user_id, password=password))
-
-        return response.access_token
 
     def _create_metadata(self, access_token):
         return (
@@ -57,6 +47,14 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
         return self._authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest
                                            (scopes=scopes), metadata=metadata)
+
+    def set_access_token(self, user_id, password):
+        "New per rpc token saves the access token from the login user response."
+        response = self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
+                                              (user_id=user_id, password=password))
+
+        self._access_token = response.access_token
+        return
 
     def login_user(self, user_id, password):
         "Login user request."

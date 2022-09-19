@@ -22,8 +22,8 @@ import protobuf_generic.generic_pb2
 class GenericClient(base.BaseClient):
     """GenericClient can be used to make calls to a D1 Generic service."""
 
-    def __init__(self, channel, user_id=None, password=None):
-        base.BaseClient.__init__(self, channel, user_id, password)
+    def __init__(self, channel):
+        base.BaseClient.__init__(self, channel)
 
         self._generic_stub = protobuf_generic.generic_pb2_grpc.GenericStub(
             channel)

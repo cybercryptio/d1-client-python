@@ -54,8 +54,9 @@ class TestGenericClient:
         and associated_data can be stored and retrieved correctly."""
 
         with grpc.insecure_channel('localhost:9000') as channel:
+            client = generic.GenericClient(channel)
 
-            client = generic.GenericClient(channel, uid, password)
+            client.set_access_token(uid, password)
 
             plaintext = b'Darkwingduck'
 
