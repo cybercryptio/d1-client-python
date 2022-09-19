@@ -40,16 +40,12 @@ class TestGenericClient:
 
             access_token = response.access_token
 
-            metadata = (
-                ('authorization', f'bearer {access_token}'),
-            )
-
             plaintext = b'Darkwingduck'
 
-            response = client.encrypt(plaintext, metadata)
+            response = client.encrypt(plaintext, access_token)
 
             response = client.decrypt(
-                response.ciphertext, response.object_id, metadata)
+                response.ciphertext, response.object_id, access_token)
 
             assert plaintext == response.plaintext
 

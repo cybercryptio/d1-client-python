@@ -25,28 +25,32 @@ class GenericClient(base.BaseClient):
     def __init__(self, channel, user_id=None, password=None):
         base.BaseClient.__init__(self, channel, user_id, password)
 
-        self.generic_stub = protobuf_generic.generic_pb2_grpc.GenericStub(
+        self._generic_stub = protobuf_generic.generic_pb2_grpc.GenericStub(
             channel)
 
-    def encrypt(self, plaintext, metadata=None):
+    def encrypt(self, plaintext, access_token=None):
         "Encrypt request."
-        if not metadata:
-            if self.metadata:
-                metadata = self.metadata
+        if not access_token:
+            if self._access_token:
+                access_token = self._access_token
             else:
-                raise ValueError("Metadata is missing.")
+                raise ValueError("Access token is missing.")
 
-        return self.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest
-                                         (plaintext=plaintext), metadata=metadata)
+        metadata = self._create_metadata(access_token)
 
-    def decrypt(self, ciphertext, object_id, metadata=None):
+        return self._generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest
+                                          (plaintext=plaintext), metadata=metadata)
+
+    def decrypt(self, ciphertext, object_id, access_token=None):
         "Decrypt request."
-        if not metadata:
-            if self.metadata:
-                metadata = self.metadata
+        if not access_token:
+            if self._access_token:
+                access_token = self._access_token
             else:
-                raise ValueError("Metadata is missing.")
+                raise ValueError("Access token is missing.")
 
-        return self.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest
-                                         (ciphertext=ciphertext, object_id=object_id),
-                                         metadata=metadata)
+        metadata = self._create_metadata(access_token)
+
+        return self._generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest
+                                          (ciphertext=ciphertext, object_id=object_id),
+                                          metadata=metadata)
