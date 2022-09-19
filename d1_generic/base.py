@@ -23,41 +23,86 @@ import protobuf_generic.version_pb2_grpc
 class BaseClient:  # pylint: disable=too-few-public-methods
     """BaseClient represents the shared functionality between various D1 services."""
 
-    def __init__(self, channel):
+    def __init__(self, channel, user_id=None, password=None):
 
         self.version_stub = protobuf_generic.version_pb2_grpc.VersionStub(
             channel)
         self.authn_stub = protobuf_generic.authn_pb2_grpc.AuthnStub(channel)
         self.authz_stub = protobuf_generic.authz_pb2_grpc.AuthzStub(channel)
 
+        if user_id and password:
+            self.metadata = self.new_per_rpc_token(user_id, password)
+
+    def new_per_rpc_token(self, user_id, password):
+        "New per rpc token saves the access token from the login user response."
+        response = self.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
+                                             (user_id=user_id, password=password))
+
+        metadata = (
+            ('authorization', f'bearer {response.access_token}'),
+        )
+
+        return metadata
+
     def create_user(self, scopes, metadata=None):
         "Create user request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest
                                           (scopes=scopes), metadata=metadata)
 
-    def login_user(self, user_id, password, metadata=None):
+    def login_user(self, user_id, password):
         "Login user request."
+
         return self.authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
-                                         (user_id=user_id, password=password), metadata=metadata)
+                                         (user_id=user_id, password=password))
 
     def remove_user(self, user_id, metadata=None):
         "Remove user request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authn_stub.RemoveUser(protobuf_generic.authn_pb2.RemoveUserRequest
                                           (user_id=user_id), metadata=metadata)
 
     def create_group(self, scopes, metadata=None):
         "Create group request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authn_stub.CreateGroup(protobuf_generic.authn_pb2.CreateGroupRequest
                                            (scopes=scopes), metadata=metadata)
 
     def add_user_to_groups(self, user_id, group_ids, metadata=None):
         "Add user to groups request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authn_stub.AddUserToGroups(protobuf_generic.authn_pb2.AddUserToGroupsRequest
                                                (user_id=user_id, group_ids=group_ids),
                                                metadata=metadata)
 
     def remove_user_from_groups(self, user_id, group_ids, metadata=None):
         "Remove user from groups request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authn_stub.RemoveUserFromGroups(
             protobuf_generic.authn_pb2.RemoveUserFromGroupsRequest
             (user_id=user_id, group_ids=group_ids),
@@ -65,27 +110,57 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def get_permissions(self, object_id, metadata=None):
         "Get permissions request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authz_stub.GetPermissions(protobuf_generic.authz_pb2.GetPermissionsRequest
                                               (object_id=object_id), metadata=metadata)
 
     def add_permission(self, object_id, group_ids, metadata=None):
         "Add permission request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authz_stub.AddPermission(protobuf_generic.authz_pb2.AddPermissionRequest
                                              (object_id=object_id, group_ids=group_ids),
                                              metadata=metadata)
 
     def remove_permission(self, object_id, group_ids, metadata=None):
         "Remove permission request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authz_stub.RemovePermission(protobuf_generic.authz_pb2.RemovePermissionRequest
                                                 (object_id=object_id, group_ids=group_ids),
                                                 metadata=metadata)
 
     def check_permission(self, object_id, metadata=None):
         "Check permission request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.authz_stub.CheckPermission(protobuf_generic.authz_pb2.CheckPermissionRequest
                                                (object_id=object_id), metadata=metadata)
 
     def version(self, metadata=None):
         "Version request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.version_stub.Version(protobuf_generic.version_pb2.VersionRequest(),
                                          metadata=metadata)

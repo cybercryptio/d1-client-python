@@ -22,57 +22,50 @@ from d1_generic import generic
 import d1_generic.header_manipulator_client_interceptor as interceptor
 
 
+uid = os.environ['D1_UID']
+password = os.environ['D1_PASS']
+
+
 class TestGenericClient:
     "Tests of Generic Client."
 
     def test_generic_client(self):
         """Create a new Generic Client and verify that a
         plaintext can be encrypted and decrypted correctly."""
-        uid = os.environ['D1_UID']
-        password = os.environ['D1_PASS']
 
-        channel = grpc.insecure_channel('localhost:9000')
+        with grpc.insecure_channel('localhost:9000') as channel:
+            client = generic.GenericClient(channel)
 
-        client = generic.GenericClient(channel)
+            response = client.login_user(uid, password)
 
-        response = client.login_user(uid, password)
+            access_token = response.access_token
 
-        access_token = response.access_token
+            metadata = (
+                ('authorization', f'bearer {access_token}'),
+            )
 
-        metadata = (
-            ('authorization', f'bearer {access_token}'),
-        )
+            plaintext = b'Darkwingduck'
 
-        plaintext = b'Darkwingduck'
+            response = client.encrypt(plaintext, metadata)
 
-        response = client.encrypt(plaintext, metadata)
+            response = client.decrypt(
+                response.ciphertext, response.object_id, metadata)
 
-        response = client.decrypt(
-            response.ciphertext, response.object_id, metadata)
-
-        assert plaintext == response.plaintext
-
-    access_token = os.environ['access_token']
+            assert plaintext == response.plaintext
 
     def test_per_rpc_creds(self):
         """Create a new Generic Client and verify that a plaintext
         and associated_data can be stored and retrieved correctly."""
 
-        access_token = os.environ['access_token']
+        with grpc.insecure_channel('localhost:9000') as channel:
 
-        header_adder_interceptor = interceptor.header_adder_interceptor(
-            'authorization', f'bearer {access_token}')
+            client = generic.GenericClient(channel, uid, password)
 
-        channel = grpc.intercept_channel(
-            grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+            plaintext = b'Darkwingduck'
 
-        client = generic.GenericClient(channel)
+            response = client.encrypt(plaintext)
 
-        plaintext = b'Darkwingduck'
+            response = client.decrypt(
+                response.ciphertext, response.object_id)
 
-        response = client.encrypt(plaintext)
-
-        response = client.decrypt(
-            response.ciphertext, response.object_id)
-
-        assert plaintext == response.plaintext
+            assert plaintext == response.plaintext

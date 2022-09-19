@@ -22,19 +22,31 @@ import protobuf_generic.generic_pb2
 class GenericClient(base.BaseClient):
     """GenericClient can be used to make calls to a D1 Generic service."""
 
-    def __init__(self, channel):
-        base.BaseClient.__init__(self, channel)
+    def __init__(self, channel, user_id=None, password=None):
+        base.BaseClient.__init__(self, channel, user_id, password)
 
         self.generic_stub = protobuf_generic.generic_pb2_grpc.GenericStub(
             channel)
 
     def encrypt(self, plaintext, metadata=None):
         "Encrypt request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest
                                          (plaintext=plaintext), metadata=metadata)
 
     def decrypt(self, ciphertext, object_id, metadata=None):
         "Decrypt request."
+        if not metadata:
+            if self.metadata:
+                metadata = self.metadata
+            else:
+                raise ValueError("Metadata is missing.")
+
         return self.generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest
                                          (ciphertext=ciphertext, object_id=object_id),
                                          metadata=metadata)

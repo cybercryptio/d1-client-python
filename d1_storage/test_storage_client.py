@@ -31,27 +31,26 @@ class TestStorageClass:
         uid = os.environ['D1_UID']
         password = os.environ['D1_PASS']
 
-        channel = grpc.insecure_channel('localhost:9000')
+        with grpc.insecure_channel('localhost:9000') as channel:
+            client = storage.StorageClient(channel)
 
-        client = storage.StorageClient(channel)
+            response = client.login_user(uid, password)
 
-        response = client.login_user(uid, password)
+            access_token = response.access_token
 
-        access_token = response.access_token
+            metadata = (
+                ('authorization', f'bearer {access_token}'),
+            )
 
-        metadata = (
-            ('authorization', f'bearer {access_token}'),
-        )
+            plaintext = b'Darkwingduck'
+            associated_data = b'Metadata'
 
-        plaintext = b'Darkwingduck'
-        associated_data = b'Metadata'
+            response = client.store(plaintext, associated_data, metadata)
 
-        response = client.store(plaintext, associated_data, metadata)
+            response = client.retrieve(response.object_id, metadata)
 
-        response = client.retrieve(response.object_id, metadata)
-
-        assert plaintext == response.plaintext
-        assert associated_data == response.associated_data
+            assert plaintext == response.plaintext
+            assert associated_data == response.associated_data
 
     def test_per_rpc_creds(self):
         """Create a new Storage Client and verify that a plaintext
