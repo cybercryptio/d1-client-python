@@ -19,8 +19,6 @@ import grpc
 
 from d1_generic import generic
 
-import d1_generic.header_manipulator_client_interceptor as interceptor
-
 
 uid = os.environ['D1_UID']
 password = os.environ['D1_PASS']
@@ -56,7 +54,7 @@ class TestGenericClient:
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
 
-            client.set_access_token(uid, password)
+            client.login_user_set_token(uid, password)
 
             plaintext = b'Darkwingduck'
 

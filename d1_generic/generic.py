@@ -31,10 +31,7 @@ class GenericClient(base.BaseClient):
     def encrypt(self, plaintext, access_token=None):
         "Encrypt request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -44,10 +41,7 @@ class GenericClient(base.BaseClient):
     def decrypt(self, ciphertext, object_id, access_token=None):
         "Decrypt request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 

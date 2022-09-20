@@ -29,6 +29,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
             channel)
         self._authn_stub = protobuf_generic.authn_pb2_grpc.AuthnStub(channel)
         self._authz_stub = protobuf_generic.authz_pb2_grpc.AuthzStub(channel)
+        self._access_token = None
 
     def _create_metadata(self, access_token):
         return (
@@ -38,23 +39,19 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def create_user(self, scopes, access_token=None):
         "Create user request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest
                                            (scopes=scopes), metadata=metadata)
 
-    def set_access_token(self, user_id, password):
+    def login_user_set_token(self, user_id, password):
         "New per rpc token saves the access token from the login user response."
         response = self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
                                               (user_id=user_id, password=password))
 
         self._access_token = response.access_token
-        return
 
     def login_user(self, user_id, password):
         "Login user request."
@@ -65,10 +62,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def remove_user(self, user_id, access_token=None):
         "Remove user request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -78,10 +72,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def create_group(self, scopes, access_token=None):
         "Create group request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -91,10 +82,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def add_user_to_groups(self, user_id, group_ids, access_token=None):
         "Add user to groups request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -105,10 +93,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def remove_user_from_groups(self, user_id, group_ids, access_token=None):
         "Remove user from groups request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -120,10 +105,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def get_permissions(self, object_id, access_token=None):
         "Get permissions request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -133,10 +115,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def add_permission(self, object_id, group_ids, access_token=None):
         "Add permission request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -147,10 +126,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def remove_permission(self, object_id, group_ids, access_token=None):
         "Remove permission request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -161,10 +137,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def check_permission(self, object_id, access_token=None):
         "Check permission request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
@@ -174,10 +147,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
     def version(self, access_token=None):
         "Version request."
         if not access_token:
-            if self._access_token:
-                access_token = self._access_token
-            else:
-                raise ValueError("Access token is missing.")
+            access_token = self._access_token
 
         metadata = self._create_metadata(access_token)
 
