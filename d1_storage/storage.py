@@ -25,16 +25,26 @@ class StorageClient(base.BaseClient):
     def __init__(self, channel):
         base.BaseClient.__init__(self, channel)
 
-        self.storage_stub = protobuf_storage.storage_pb2_grpc.StorageStub(
+        self._storage_stub = protobuf_storage.storage_pb2_grpc.StorageStub(
             channel)
 
-    def store(self, plaintext, associated_data, metadata=None):
+    def store(self, plaintext, associated_data, access_token=None):
         "Store request."
-        return self.storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest
-                                       (plaintext=plaintext, associated_data=associated_data),
-                                       metadata=metadata)
+        if not access_token:
+            access_token = self._access_token
 
-    def retrieve(self, object_id, metadata=None):
+        metadata = self._create_metadata(access_token)
+
+        return self._storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest
+                                        (plaintext=plaintext, associated_data=associated_data),
+                                        metadata=metadata)
+
+    def retrieve(self, object_id, access_token=None):
         "Retrieve request."
-        return self.storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest
-                                          (object_id=object_id), metadata=metadata)
+        if not access_token:
+            access_token = self._access_token
+
+        metadata = self._create_metadata(access_token)
+
+        return self._storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest
+                                           (object_id=object_id), metadata=metadata)

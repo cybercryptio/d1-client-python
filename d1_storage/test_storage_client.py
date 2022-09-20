@@ -18,7 +18,9 @@ import os
 import grpc
 
 from d1_storage import storage
-import d1_generic.header_manipulator_client_interceptor as interceptor
+
+uid = os.environ['D1_UID']
+password = os.environ['D1_PASS']
 
 
 class TestStorageClass:
@@ -28,9 +30,6 @@ class TestStorageClass:
         """Create a new Storage Client and verify that a plaintext and associated_data can be
         stored and retrieved correctly."""
 
-        uid = os.environ['D1_UID']
-        password = os.environ['D1_PASS']
-
         with grpc.insecure_channel('localhost:9000') as channel:
             client = storage.StorageClient(channel)
 
@@ -38,16 +37,12 @@ class TestStorageClass:
 
             access_token = response.access_token
 
-            metadata = (
-                ('authorization', f'bearer {access_token}'),
-            )
-
             plaintext = b'Darkwingduck'
             associated_data = b'Metadata'
 
-            response = client.store(plaintext, associated_data, metadata)
+            response = client.store(plaintext, associated_data, access_token)
 
-            response = client.retrieve(response.object_id, metadata)
+            response = client.retrieve(response.object_id, access_token)
 
             assert plaintext == response.plaintext
             assert associated_data == response.associated_data
@@ -56,22 +51,17 @@ class TestStorageClass:
         """Create a new Storage Client and verify that a plaintext
         can be encrypted and decrypted correctly."""
 
-        access_token = os.environ['access_token']
+        with grpc.insecure_channel('localhost:9000') as channel:
+            client = storage.StorageClient(channel)
 
-        header_adder_interceptor = interceptor.header_adder_interceptor(
-            'authorization', f'bearer {access_token}')
+            client.login_user_set_token(uid, password)
 
-        channel = grpc.intercept_channel(
-            grpc.insecure_channel('localhost:9000'), header_adder_interceptor)
+            plaintext = b'Darkwingduck'
+            associated_data = b'Metadata'
 
-        client = storage.StorageClient(channel)
+            response = client.store(plaintext, associated_data)
 
-        plaintext = b'Darkwingduck'
-        associated_data = b'Metadata'
+            response = client.retrieve(response.object_id)
 
-        response = client.store(plaintext, associated_data)
-
-        response = client.retrieve(response.object_id)
-
-        assert plaintext == response.plaintext
-        assert associated_data == response.associated_data
+            assert plaintext == response.plaintext
+            assert associated_data == response.associated_data
