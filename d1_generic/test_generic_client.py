@@ -47,14 +47,34 @@ class TestGenericClient:
 
             assert plaintext == response.plaintext
 
-    def test_per_rpc_creds(self):
+    def test_login_set_token(self):
         """Create a new Generic Client and verify that a plaintext
-        and associated_data can be stored and retrieved correctly."""
+        and associated_data can be encrypted and decrypted correctly."""
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
 
             client.login_user_set_token(uid, password)
+
+            plaintext = b'Darkwingduck'
+
+            response = client.encrypt(plaintext)
+
+            response = client.decrypt(
+                response.ciphertext, response.object_id)
+
+            assert plaintext == response.plaintext
+
+    def test_set_token(self):
+        """Create a new Generic Client and verify that an access
+        token can be set without calling a login method."""
+
+        access_token = os.environ['D1_TOKEN']
+
+        with grpc.insecure_channel('localhost:9000') as channel:
+            client = generic.GenericClient(channel)
+
+            client.set_access_token(access_token)
 
             plaintext = b'Darkwingduck'
 

@@ -16,7 +16,6 @@
 
 from d1_generic import base
 import protobuf_storage.storage_pb2_grpc
-import protobuf_storage.storage_pb2
 
 
 class StorageClient(base.BaseClient):
@@ -42,3 +41,18 @@ class StorageClient(base.BaseClient):
 
         return self._storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest
                                            (object_id=object_id), metadata=metadata)
+
+    def update(self, plaintext, associated_data, object_id, access_token=None):
+        "Update request."
+        metadata = self._create_metadata(access_token)
+
+        return self._storage_stub.Update(protobuf_storage.storage_pb2.UpdateRequest
+                                         (plaintext=plaintext, associated_data=associated_data,
+                                          object_id=object_id), metadata=metadata)
+
+    def delete(self, object_id, access_token=None):
+        "Delete request."
+        metadata = self._create_metadata(access_token)
+
+        return self._storage_stub.Delete(protobuf_storage.storage_pb2.DeleteRequest
+                                         (object_id=object_id), metadata=metadata)

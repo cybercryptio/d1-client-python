@@ -14,14 +14,14 @@
 
 """This module contains the BaseClient class."""
 
-import datetime
+import datetime as dt
 
 import protobuf_generic.authn_pb2_grpc
 import protobuf_generic.authz_pb2_grpc
 import protobuf_generic.version_pb2_grpc
 
 
-class BaseClient:  # pylint: disable=too-few-public-methods
+class BaseClient:
     """BaseClient represents the shared functionality between various D1 services."""
 
     def __init__(self, channel):
@@ -36,15 +36,21 @@ class BaseClient:  # pylint: disable=too-few-public-methods
         self._token_expiry = None
 
     def _token_expired(self, token_expiry):
-        return int((datetime.datetime.utcnow() +
-                    datetime.timedelta(minutes=1)).timestamp()) > token_expiry
+        """_token_expired checks whether token_expiry is within the next minute. If yes, True is
+        returned, otherwise False."""
+        return int((dt.datetime.utcnow() + dt.timedelta(minutes=1)).timestamp()) > token_expiry
 
     def _create_metadata(self, access_token):
+        """_create_metadata creates metadata from the access_token. If access_token is None, then
+        the self._access_token should be used. If self._token_expiry is None, then it should not
+        be checked whether the token has expired as the token could then have been set with the
+        set_access_token method."""
         if not access_token:
+            if not self._token_expiry:
+                access_token = self._access_token
             if self._token_expired(self._token_expiry):
                 self.login_user_set_token(self.user_id, self.password)
-            else:
-                access_token = self._access_token
+            access_token = self._access_token
 
         return (
             ('authorization', f'bearer {access_token}'),
@@ -58,7 +64,7 @@ class BaseClient:  # pylint: disable=too-few-public-methods
                                            (scopes=scopes), metadata=metadata)
 
     def login_user_set_token(self, user_id, password):
-        "New per rpc token saves the access token from the login user response."
+        """Login user request and save the access token."""
         response = self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
                                               (user_id=user_id, password=password))
 
@@ -72,6 +78,11 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
         return self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
                                           (user_id=user_id, password=password))
+
+    def set_access_token(self, access_token):
+        """Set the access token in the Base client instance."""
+        self._access_token = access_token
+        self._token_expiry = None
 
     def remove_user(self, user_id, access_token=None):
         "Remove user request."

@@ -16,7 +16,6 @@
 
 from d1_generic import base
 import protobuf_generic.generic_pb2_grpc
-import protobuf_generic.generic_pb2
 
 
 class GenericClient(base.BaseClient):
