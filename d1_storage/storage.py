@@ -30,9 +30,6 @@ class StorageClient(base.BaseClient):
 
     def store(self, plaintext, associated_data, access_token=None):
         "Store request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest
@@ -41,9 +38,6 @@ class StorageClient(base.BaseClient):
 
     def retrieve(self, object_id, access_token=None):
         "Retrieve request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._storage_stub.Retrieve(protobuf_storage.storage_pb2.RetrieveRequest

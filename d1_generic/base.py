@@ -14,8 +14,9 @@
 
 """This module contains the BaseClient class."""
 
+import datetime
+
 import protobuf_generic.authn_pb2_grpc
-import protobuf_generic.authn_pb2
 import protobuf_generic.authz_pb2_grpc
 import protobuf_generic.version_pb2_grpc
 
@@ -29,18 +30,28 @@ class BaseClient:  # pylint: disable=too-few-public-methods
             channel)
         self._authn_stub = protobuf_generic.authn_pb2_grpc.AuthnStub(channel)
         self._authz_stub = protobuf_generic.authz_pb2_grpc.AuthzStub(channel)
+        self.user_id = None
+        self.password = None
         self._access_token = None
+        self._token_expiry = None
+
+    def _token_expired(self, token_expiry):
+        return int((datetime.datetime.utcnow() +
+                    datetime.timedelta(minutes=1)).timestamp()) > token_expiry
 
     def _create_metadata(self, access_token):
+        if not access_token:
+            if self._token_expired(self._token_expiry):
+                self.login_user_set_token(self.user_id, self.password)
+            else:
+                access_token = self._access_token
+
         return (
             ('authorization', f'bearer {access_token}'),
         )
 
     def create_user(self, scopes, access_token=None):
         "Create user request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.CreateUser(protobuf_generic.authn_pb2.CreateUserRequest
@@ -51,7 +62,10 @@ class BaseClient:  # pylint: disable=too-few-public-methods
         response = self._authn_stub.LoginUser(protobuf_generic.authn_pb2.LoginUserRequest
                                               (user_id=user_id, password=password))
 
+        self.user_id = user_id
+        self.password = password
         self._access_token = response.access_token
+        self._token_expiry = response.expiry_time
 
     def login_user(self, user_id, password):
         "Login user request."
@@ -61,9 +75,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def remove_user(self, user_id, access_token=None):
         "Remove user request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.RemoveUser(protobuf_generic.authn_pb2.RemoveUserRequest
@@ -71,9 +82,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def create_group(self, scopes, access_token=None):
         "Create group request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.CreateGroup(protobuf_generic.authn_pb2.CreateGroupRequest
@@ -81,9 +89,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def add_user_to_groups(self, user_id, group_ids, access_token=None):
         "Add user to groups request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.AddUserToGroups(protobuf_generic.authn_pb2.AddUserToGroupsRequest
@@ -92,9 +97,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def remove_user_from_groups(self, user_id, group_ids, access_token=None):
         "Remove user from groups request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authn_stub.RemoveUserFromGroups(
@@ -104,9 +106,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def get_permissions(self, object_id, access_token=None):
         "Get permissions request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authz_stub.GetPermissions(protobuf_generic.authz_pb2.GetPermissionsRequest
@@ -114,9 +113,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def add_permission(self, object_id, group_ids, access_token=None):
         "Add permission request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authz_stub.AddPermission(protobuf_generic.authz_pb2.AddPermissionRequest
@@ -125,9 +121,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def remove_permission(self, object_id, group_ids, access_token=None):
         "Remove permission request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authz_stub.RemovePermission(protobuf_generic.authz_pb2.RemovePermissionRequest
@@ -136,9 +129,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def check_permission(self, object_id, access_token=None):
         "Check permission request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._authz_stub.CheckPermission(protobuf_generic.authz_pb2.CheckPermissionRequest
@@ -146,9 +136,6 @@ class BaseClient:  # pylint: disable=too-few-public-methods
 
     def version(self, access_token=None):
         "Version request."
-        if not access_token:
-            access_token = self._access_token
-
         metadata = self._create_metadata(access_token)
 
         return self._version_stub.Version(protobuf_generic.version_pb2.VersionRequest(),
