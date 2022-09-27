@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# pylint: disable=E1101
+
 """This module contains the GenericClient class."""
 
 from d1_generic import base
@@ -27,17 +29,18 @@ class GenericClient(base.BaseClient):
         self._generic_stub = protobuf_generic.generic_pb2_grpc.GenericStub(
             channel)
 
-    def encrypt(self, plaintext, access_token=None):
+    def encrypt(self, plaintext, associated_data, group_ids, access_token=None):
         "Encrypt request."
         metadata = self._create_metadata(access_token)
 
         return self._generic_stub.Encrypt(protobuf_generic.generic_pb2.EncryptRequest
-                                          (plaintext=plaintext), metadata=metadata)
+            (plaintext=plaintext, associated_data=associated_data, group_ids=group_ids),
+            metadata=metadata)
 
-    def decrypt(self, ciphertext, object_id, access_token=None):
+    def decrypt(self, ciphertext, associated_data, object_id, access_token=None):
         "Decrypt request."
         metadata = self._create_metadata(access_token)
 
         return self._generic_stub.Decrypt(protobuf_generic.generic_pb2.DecryptRequest
-                                          (ciphertext=ciphertext, object_id=object_id),
-                                          metadata=metadata)
+            (ciphertext=ciphertext, associated_data=associated_data, object_id=object_id),
+            metadata=metadata)

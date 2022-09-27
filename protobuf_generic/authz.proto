@@ -3,7 +3,7 @@
 syntax = "proto3";
 
 package d1.authz;
-option go_package = "github.com/cybercryptio/d1-service-generic/protobuf/authz";
+option go_package = "github.com/cybercryptio/d1-service-generic/v2/protobuf/authz";
 option csharp_namespace = "CyberCrypt.D1.Client.Protobuf.Authz";
 option java_package = "io.cybercrypt.d1.protobuf.authz";
 option java_outer_classname = "AuthzProto";

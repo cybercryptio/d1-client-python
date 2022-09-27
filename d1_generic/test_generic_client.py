@@ -33,15 +33,18 @@ class TestGenericClient:
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
+
             response = client.login_user(uid, password)
+
             access_token = response.access_token
 
             plaintext = b'Darkwingduck'
+            associated_data = b'Associated data'
 
-            response = client.encrypt(plaintext, access_token)
+            response = client.encrypt(plaintext, associated_data, None, access_token)
 
             response = client.decrypt(
-                response.ciphertext, response.object_id, access_token)
+                response.ciphertext, associated_data, response.object_id, access_token)
 
             assert plaintext == response.plaintext
 
@@ -51,32 +54,15 @@ class TestGenericClient:
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
+
             client.login_user_set_token(uid, password)
 
             plaintext = b'Darkwingduck'
+            associated_data = b'Associated data'
 
-            response = client.encrypt(plaintext)
-
-            response = client.decrypt(
-                response.ciphertext, response.object_id)
-
-            assert plaintext == response.plaintext
-
-    def test_set_token(self):
-        """Create a new Generic Client and verify that an access
-        token can be set without calling a login method."""
-
-        access_token = os.environ['D1_TOKEN']
-
-        with grpc.insecure_channel('localhost:9000') as channel:
-            client = generic.GenericClient(channel)
-            client.set_access_token(access_token)
-
-            plaintext = b'Darkwingduck'
-
-            response = client.encrypt(plaintext)
+            response = client.encrypt(plaintext, associated_data, None)
 
             response = client.decrypt(
-                response.ciphertext, response.object_id)
+                response.ciphertext, associated_data, response.object_id)
 
             assert plaintext == response.plaintext
