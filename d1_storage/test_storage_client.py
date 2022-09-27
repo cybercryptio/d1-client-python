@@ -40,7 +40,7 @@ class TestStorageClass:
             plaintext = b'Darkwingduck'
             associated_data = b'Associated data'
 
-            response = client.store(plaintext, associated_data, access_token)
+            response = client.store(plaintext, associated_data, None, access_token)
 
             response = client.retrieve(response.object_id, access_token)
 
@@ -59,28 +59,7 @@ class TestStorageClass:
             plaintext = b'Darkwingduck'
             associated_data = b'Associated data'
 
-            response = client.store(plaintext, associated_data)
-
-            response = client.retrieve(response.object_id)
-
-            assert plaintext == response.plaintext
-            assert associated_data == response.associated_data
-
-    def test_set_token(self):
-        """Create a new Storage Client and verify that an access
-        token can be set without calling a login method."""
-
-        access_token = os.environ['D1_TOKEN']
-
-        with grpc.insecure_channel('localhost:9000') as channel:
-            client = storage.StorageClient(channel)
-
-            client.set_access_token(access_token)
-
-            plaintext = b'Darkwingduck'
-            associated_data = b'Associated data'
-
-            response = client.store(plaintext, associated_data)
+            response = client.store(plaintext, associated_data, None)
 
             response = client.retrieve(response.object_id)
 

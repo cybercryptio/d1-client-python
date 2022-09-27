@@ -27,13 +27,13 @@ class StorageClient(base.BaseClient):
         self._storage_stub = protobuf_storage.storage_pb2_grpc.StorageStub(
             channel)
 
-    def store(self, plaintext, associated_data, access_token=None):
+    def store(self, plaintext, associated_data, group_ids, access_token=None):
         "Store request."
         metadata = self._create_metadata(access_token)
 
         return self._storage_stub.Store(protobuf_storage.storage_pb2.StoreRequest
-                                        (plaintext=plaintext, associated_data=associated_data),
-                                        metadata=metadata)
+            (plaintext=plaintext, associated_data=associated_data, group_ids=group_ids),
+            metadata=metadata)
 
     def retrieve(self, object_id, access_token=None):
         "Retrieve request."
@@ -47,8 +47,8 @@ class StorageClient(base.BaseClient):
         metadata = self._create_metadata(access_token)
 
         return self._storage_stub.Update(protobuf_storage.storage_pb2.UpdateRequest
-                                         (plaintext=plaintext, associated_data=associated_data,
-                                          object_id=object_id), metadata=metadata)
+            (plaintext=plaintext, associated_data=associated_data, object_id=object_id),
+            metadata=metadata)
 
     def delete(self, object_id, access_token=None):
         "Delete request."
