@@ -7,7 +7,7 @@ package d1.authn;
 
 import "scopes.proto";
 
-option go_package = "github.com/cybercryptio/d1-service-generic/protobuf/authn";
+option go_package = "github.com/cybercryptio/d1-service-generic/v2/protobuf/authn";
 option csharp_namespace = "CyberCrypt.D1.Client.Protobuf.Authn";
 option java_package = "io.cybercrypt.d1.protobuf.authn";
 option java_outer_classname = "AuthnProto";
