@@ -3,7 +3,7 @@
 syntax = "proto3";
 
 package d1.index;
-option go_package = "github.com/cybercryptio/d1-service-generic/protobuf/index";
+option go_package = "github.com/cybercryptio/d1-service-generic/v2/protobuf/index";
 option csharp_namespace = "CyberCrypt.D1.Client.Protobuf.Index";
 option java_package = "io.cybercrypt.d1.protobuf.index";
 option java_outer_classname = "IndexProto";
