@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# pylint: disable=E1101
+
 """This module contains the StorageClient class."""
 
 from d1_generic import base
