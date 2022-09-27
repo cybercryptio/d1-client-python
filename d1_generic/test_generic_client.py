@@ -41,8 +41,7 @@ class TestGenericClient:
             plaintext = b'Darkwingduck'
             associated_data = b'Associated data'
 
-            response = client.encrypt(
-                plaintext, associated_data, None, access_token)
+            response = client.encrypt(plaintext, associated_data, None, access_token)
 
             response = client.decrypt(
                 response.ciphertext, associated_data, response.object_id, access_token)
