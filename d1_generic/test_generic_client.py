@@ -33,9 +33,7 @@ class TestGenericClient:
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
-
             response = client.login_user(uid, password)
-
             access_token = response.access_token
 
             plaintext = b'Darkwingduck'
@@ -53,7 +51,6 @@ class TestGenericClient:
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
-
             client.login_user_set_token(uid, password)
 
             plaintext = b'Darkwingduck'
@@ -73,7 +70,6 @@ class TestGenericClient:
 
         with grpc.insecure_channel('localhost:9000') as channel:
             client = generic.GenericClient(channel)
-
             client.set_access_token(access_token)
 
             plaintext = b'Darkwingduck'
